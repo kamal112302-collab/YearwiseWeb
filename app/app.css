@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-green: #02ad41;
+  --color-brand-green-deep: #1f8a38;
+  --color-brand-navy: #1f2c4c;
+  --color-brand-ink: #1a1f16;
+  --color-brand-mint: #e7f3dc;
+  --color-brand-surface: #f4f8ee;
+  --color-canvas: #c9dbb6;
+  --color-panel: #ffffff;
+  --color-background: #ffffff;
+  --color-foreground: var(--color-brand-ink);
+  --color-primary: var(--color-brand-green);
+  --color-muted-foreground: color-mix(in oklab, var(--color-brand-ink) 58%, white);
+  --color-border: color-mix(in oklab, var(--color-brand-green) 18%, white);
+}
+
+body { @apply bg-white text-foreground font-sans antialiased overflow-x-clip; }
+h1, h2, h3 { @apply font-display tracking-tight; }
+.skip-link { @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-navy focus:text-white focus:px-4 focus:py-2 focus:rounded-xl; }
+.section-pad { @apply px-5 sm:px-8 lg:px-12 py-14 lg:py-20; }
+.prose-yearwise { @apply text-muted-foreground leading-relaxed; }
+.prose-yearwise p { @apply mb-4; }
+.prose-yearwise h2 { @apply text-brand-ink text-2xl font-semibold mt-8 mb-3; }
+.display { @apply font-display font-extrabold leading-[1.05] tracking-tight text-brand-navy; }
+.eyebrow { @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-green; }
+.soft-ring { box-shadow: 0 0 0 18px color-mix(in oklab, var(--color-brand-green) 12%, transparent); }
+
+/* ── Glass card for floating service cards ── */
+.glass-card {
+  @apply bg-white/90 backdrop-blur-sm shadow-lg ring-1 ring-black/5 rounded-2xl;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.glass-card:hover {
+  @apply shadow-xl ring-brand-green/30;
+  transform: translateY(-2px);
+}
+
+/* ── Hero video container ── */
+.hero-video-mask {
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+/* ── Stats highlight (green bg stat) ── */
+.stat-highlight {
+  @apply bg-brand-green text-white border-brand-green;
+}
+.stat-highlight p:first-child { @apply text-white; }
+.stat-highlight p:last-child { @apply text-white/80; }
+
+/* ── Trust logo styling ── */
+.trust-logo {
+  @apply opacity-40 grayscale transition-all duration-300;
+}
+.trust-logo:hover {
+  @apply opacity-100 grayscale-0;
+}
+
+/* ── Social proof avatar ring ── */
+.avatar-ring {
+  @apply ring-2 ring-white rounded-full;
+}
+
+/* ── Header transparent-to-solid ── */
+.header-transparent {
+  background: transparent;
+  border-bottom-color: transparent;
+}
+.header-solid {
+  @apply bg-white/95 backdrop-blur-md border-b border-brand-green/15;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+/* ── Service mission card ── */
+.mission-card {
+  @apply relative block overflow-hidden rounded-[1.6rem];
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mission-card:hover {
+  transform: scale(1.02);
+}
+.mission-card img {
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.mission-card:hover img {
+  transform: scale(1.05);
+}
+
+/* ── Play button pulse ── */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(2,173,65,0.4); }
+  70% { box-shadow: 0 0 0 16px rgba(2,173,65,0); }
+  100% { box-shadow: 0 0 0 0 rgba(2,173,65,0); }
+}
+.play-pulse {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+/* ── Original animations ── */
+@keyframes float-leaf {
+  0%, 100% { transform: translateY(0) rotate(var(--leaf-rot, -8deg)); }
+  50% { transform: translateY(-10px) rotate(calc(var(--leaf-rot, -8deg) + 6deg)); }
+}
+.leaf { animation: float-leaf 7s ease-in-out infinite; }
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise-in 0.7s ease both; }
+
+/* ── Counter entrance ── */
+@keyframes count-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf, .rise, .play-pulse { animation: none; }
+  .mission-card:hover, .mission-card:hover img, .glass-card:hover { transform: none; }
+}

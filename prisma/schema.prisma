@@ -1,0 +1,112 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum BlogStatus {
+  draft
+  published
+}
+
+enum AdminRole {
+  superadmin
+  editor
+  support
+}
+
+enum InquiryStatus {
+  new
+  handled
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  role         AdminRole @default(editor)
+  createdAt    DateTime  @default(now())
+}
+
+model Service {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  shortDescription String?
+  description      String   @db.Text
+  startingPrice    Decimal  @db.Decimal(10, 2)
+  heroImage        String?
+  cardImage        String?
+  sortOrder        Int      @default(0)
+  seoTitle         String?
+  seoDescription   String?
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Faq {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Inquiry {
+  id            String        @id @default(cuid())
+  name          String
+  phone         String?
+  email         String
+  service       String?
+  neighbourhood String?
+  message       String        @db.Text
+  status        InquiryStatus @default(new)
+  createdAt     DateTime      @default(now())
+}
+
+model BlogPost {
+  id             String     @id @default(cuid())
+  slug           String     @unique
+  title          String
+  excerpt        String?
+  bodyRichText   String     @db.Text
+  coverImage     String?
+  author         String?
+  status         BlogStatus @default(draft)
+  publishedAt    DateTime?
+  seoTitle       String?
+  seoDescription String?
+  tags           String[]   @default([])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+}
+
+model MediaAsset {
+  id                 String   @id @default(cuid())
+  cloudinaryPublicId String   @unique
+  altText            String
+  tags               String[] @default([])
+  uploadedAt         DateTime @default(now())
+}
+
+model PolicyPage {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  content   String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value Json
+}

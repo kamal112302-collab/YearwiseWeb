@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# local env (keep .env.example)
+.env
+.env.*
+!.env.example
+*.pem
+
+# React Router / Vite
+/build/
+/.react-router/
+.vite/
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# logs and caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.cache/
+.turbo/
+coverage/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
