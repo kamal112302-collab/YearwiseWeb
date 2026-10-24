@@ -1,8 +1,9 @@
 import { getSiteSettings, getServices } from "../lib/content.server";
-import { buildMeta, getCanonicalUrl, JsonLd, localBusinessJsonLd } from "../lib/seo";
+import { buildMeta, JsonLd, localBusinessJsonLd } from "../lib/seo";
 import { Fragment } from "react";
 import { HomeExperience } from "../components/home/HomeExperience";
 import { serviceAreas } from "../lib/content.data";
+import { mediaUrl, photos } from "../lib/media";
 
 async function loader$23({}) {
   const [settings, services] = await Promise.all([getSiteSettings(), getServices()]);
@@ -19,7 +20,7 @@ function meta$8({
     title: "Yearwise Services — One Crew for Every Season | Thunder Bay",
     description: "Lawn care, snow removal, and junk hauling in Thunder Bay. One company, one number, 365 days a year. Licensed and insured. Call for a free quote.",
     path: "/",
-    image: getCanonicalUrl("/images/hero-aerial.webp")
+    image: mediaUrl(photos.lawnStriped.id, 1200)
   });
 }
 function Home({

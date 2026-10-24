@@ -1,5 +1,5 @@
 import { getSiteSettings } from "../lib/content.server";
-import { useNavigation, Outlet } from "react-router";
+import { useNavigation, Outlet, useLocation } from "react-router";
 import { NavigationProgress } from "../components/NavigationProgress";
 import { SiteHeader, SiteFooter } from "../components/storefront/SiteHeader";
 import { cn } from "../lib/utils";
@@ -15,6 +15,7 @@ function StorefrontLayout({
   loaderData
 }: Route.ComponentProps) {
   const pending = useNavigation().state !== "idle";
+  const isHome = useLocation().pathname === "/";
   const {
     settings
   } = loaderData;
@@ -22,7 +23,7 @@ function StorefrontLayout({
     <div className="flex min-h-dvh flex-col bg-white">
       <NavigationProgress />
       <SiteHeader phone={settings.phone} />
-      <main id="main-content" className={cn("flex-1 transition-opacity duration-200", pending && "opacity-80")}>
+      <main id="main-content" className={cn("flex-1 transition-opacity duration-200", !isHome && "pt-24 sm:pt-28", pending && "opacity-80")}>
         <Outlet />
       </main>
       <SiteFooter phone={settings.phone} email={settings.email} />

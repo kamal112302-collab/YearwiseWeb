@@ -70,12 +70,14 @@ export async function getFaqs() {
       }
     });
     if (rows.length === 0) return defaultFaqs;
-    return rows.map(f => ({
+    const mapped: { id: string; question: string; answer: string; sortOrder: number }[] = rows.map((f: { id: string; question: string; answer: string; sortOrder: number }) => ({
       id: f.id,
       question: f.question,
       answer: f.answer,
       sortOrder: f.sortOrder
     }));
+    const questions = new Set(mapped.map(faq => faq.question));
+    return [...mapped, ...defaultFaqs.filter(faq => !questions.has(faq.question))].sort((a, b) => a.sortOrder - b.sortOrder);
   } catch {
     return defaultFaqs;
   }

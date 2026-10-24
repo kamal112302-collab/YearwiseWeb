@@ -2,43 +2,53 @@ import { getServices } from "../lib/content.server";
 import { buildMeta } from "../lib/seo";
 import { Link } from "react-router";
 import { formatCurrency } from "../lib/utils";
+import { mediaUrl, servicePhoto } from "../lib/media";
+import { servicePageCopy } from "../lib/service-pages";
+import type { ServiceRecord } from "../lib/content.types";
 
-async function loader$21({}) {
+async function loader() {
   return {
     services: await getServices()
   };
 }
-function meta$6({}) {
+
+function meta() {
   return buildMeta({
     title: "Lawn Care, Snow Removal & Junk Hauling — Yearwise Services",
     description: "Three property services, one Thunder Bay crew. Lawn care from $49, snow removal from $59, junk hauling from $99 per visit.",
-    path: "/services"
+    path: "/services",
+    image: mediaUrl(servicePhoto("lawn-care").id, 1200)
   });
 }
-function ServicesIndex({
-  loaderData
-}) {
-  const {
-    services
-  } = loaderData;
+
+function ServicesIndex({ loaderData }: { loaderData: { services: ServiceRecord[] } }) {
+  const { services } = loaderData;
   return (
     <div className="section-pad">
-      <p className="eyebrow">Services</p>
-      <h1 className="display mt-3 max-w-3xl text-4xl sm:text-5xl">Lawns, snow, <span className="text-brand-green">and the junk.</span></h1>
-      <p className="mt-4 max-w-xl text-muted-foreground">Pick one job or bundle all three. Every visit is quoted up front — a real conversation, then a crew that shows up.</p>
+      <h1 className="display max-w-3xl text-4xl sm:text-5xl">Lawn care, snow removal, and junk hauling in Thunder Bay.</h1>
+      <p className="mt-4 max-w-xl text-muted-foreground">One insured crew for all three. Pick a single visit or bundle the year and save 20%. Every price on this site is a starting point. The quote confirms the property.</p>
       <div className="mt-12 grid gap-8 md:grid-cols-3">
-        {services.map((service) => (
-          <Link key={service.slug} to={`/services/${service.slug}`} className="group cursor-pointer">
-            <img src={service.cardImage ?? "/images/lawn-care.webp"} alt="" width={640} height={420} className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" />
-            <h2 className="mt-4 text-2xl font-semibold text-brand-navy">{service.name}</h2>
-            <p className="mt-2 text-sm text-muted-foreground">{service.shortDescription}</p>
-            <p className="mt-3 text-sm font-semibold text-brand-green">From {formatCurrency(service.startingPrice)} / visit</p>
-          </Link>
-        ))}
+        {services.map((service) => {
+          const photo = servicePhoto(service.slug, "card");
+          const copy = servicePageCopy[service.slug];
+          return (
+            <Link key={service.slug} to={`/services/${service.slug}`} className="group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green">
+              <img src={mediaUrl(photo.id, 960)} alt={photo.alt} width={960} height={720} className="aspect-[4/3] w-full rounded-xl object-cover" />
+              <h2 className="mt-4 text-2xl font-semibold text-brand-navy group-hover:text-brand-green-deep">{service.name}</h2>
+              <p className="mt-2 text-sm text-muted-foreground">{copy?.lead ?? service.shortDescription}</p>
+              {copy ? (
+                <ul className="mt-3 flex flex-col gap-1 text-sm text-brand-navy/80">
+                  {copy.included.slice(0, 3).map((item) => <li key={item}>{item}</li>)}
+                </ul>
+              ) : null}
+              <p className="mt-3 text-sm font-semibold text-brand-green-deep">From {formatCurrency(service.startingPrice)} / visit</p>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
 }
 
 export default ServicesIndex;
-export { loader$21 as loader, meta$6 as meta };
+export { loader, meta };

@@ -9,13 +9,24 @@ export function getCanonicalUrl(path) {
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
   return `${getAppUrl()}${cleanPath.split("?")[0]}`;
 }
+function absoluteUrl(value?: string) {
+  if (!value) return `${getAppUrl()}/brand/logo-mark.png`;
+  if (value.startsWith("http://") || value.startsWith("https://")) return value;
+  return getCanonicalUrl(value);
+}
 export function buildMeta({
   title,
   description,
   image,
   path = "/"
+}: {
+  title: string;
+  description: string;
+  image?: string;
+  path?: string;
 }) {
   const canonical = getCanonicalUrl(path);
+  const imageUrl = absoluteUrl(image);
   return [{
     title
   }, {
@@ -33,10 +44,28 @@ export function buildMeta({
   }, {
     property: "og:url",
     content: canonical
-  }, ...(image ? [{
+  }, {
     property: "og:image",
-    content: image
-  }] : []), {
+    content: imageUrl
+  }, {
+    property: "og:site_name",
+    content: "Yearwise Services"
+  }, {
+    property: "og:locale",
+    content: "en_CA"
+  }, {
+    name: "twitter:card",
+    content: "summary_large_image"
+  }, {
+    name: "twitter:title",
+    content: title
+  }, {
+    name: "twitter:description",
+    content: description
+  }, {
+    name: "twitter:image",
+    content: imageUrl
+  }, {
     tagName: "link",
     rel: "canonical",
     href: canonical
@@ -49,7 +78,7 @@ export function localBusinessJsonLd(settings) {
     "@type": "HomeAndConstructionBusiness",
     name: "Yearwise Services",
     url: appUrl,
-    logo: `${appUrl}/brand/logo-mark.svg`,
+    logo: `${appUrl}/brand/logo-mark.png`,
     description: "One crew for every season in Thunder Bay — lawn care, snow removal, and junk hauling. Licensed and insured.",
     telephone: settings.phone.replace(/[^\d+]/g, ""),
     email: settings.email,
@@ -115,8 +144,8 @@ export function blogPostingJsonLd(post) {
       "@type": "Organization",
       name: "Yearwise Services"
     },
-    datePublished: post.publishedAt?.toISOString(),
-    image: post.coverImage
+    datePublished: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+    image: post.coverImage ? absoluteUrl(post.coverImage) : undefined
   };
 }
 export function breadcrumbJsonLd(items) {

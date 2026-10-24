@@ -24,6 +24,9 @@ async function loader$9({
     }
   };
 }
+function meta() {
+  return [{ name: "robots", content: "noindex, nofollow" }];
+}
 function AdminLayout({
   loaderData
 }) {
@@ -33,4 +36,4 @@ function AdminLayout({
 }
 
 export default AdminLayout;
-export { loader$9 as loader };
+export { loader$9 as loader, meta };

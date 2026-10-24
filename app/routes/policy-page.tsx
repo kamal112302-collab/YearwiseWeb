@@ -58,8 +58,7 @@ function PolicyPage({
   return (
     <div className="section-pad">
       <div className="mx-auto max-w-3xl">
-        <p className="eyebrow">Policy</p>
-        <h1 className="display mt-3 text-4xl">{page.title}</h1>
+        <h1 className="display text-4xl">{page.title}</h1>
         <div className="prose-yearwise mt-8" dangerouslySetInnerHTML={{ __html: page.content }} />
       </div>
     </div>

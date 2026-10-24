@@ -1,4 +1,5 @@
 
+import { mediaUrl, servicePhoto } from "./media";
 
 export var defaultSettings = {
   phone: "(807) 358-2540",
@@ -14,8 +15,8 @@ export var defaultServices = [{
   shortDescription: "A thick, green, neighbour-jealous lawn without you lifting a finger.",
   description: "Weekly cuts to seasonal treatments. We keep your lawn sharp from the first thaw through fall cleanup — mowing, edging, and treatments handled by one insured crew you already trust for snow and junk.",
   startingPrice: 49,
-  heroImage: "/images/lawn-care.webp",
-  cardImage: "/images/lawn-care.webp",
+  heroImage: mediaUrl(servicePhoto("lawn-care", "hero").id),
+  cardImage: mediaUrl(servicePhoto("lawn-care", "card").id, 960),
   sortOrder: 0,
   seoTitle: "Lawn Care Thunder Bay | Yearwise Services",
   seoDescription: "Professional lawn care in Thunder Bay starting at $49 per visit. Weekly mowing, edging, and seasonal treatments from one year-round crew."
@@ -26,8 +27,8 @@ export var defaultServices = [{
   shortDescription: "Wake up to a cleared driveway — every single time. No calling, no wondering.",
   description: "Once you're on our snow plan, we automatically come out after every significant snowfall (5cm+). Driveway cleared and de-iced so you can get to work without the 6 a.m. scramble.",
   startingPrice: 59,
-  heroImage: "/images/snow-removal.webp",
-  cardImage: "/images/snow-removal.webp",
+  heroImage: mediaUrl(servicePhoto("snow-removal", "hero").id),
+  cardImage: mediaUrl(servicePhoto("snow-removal", "card").id, 960),
   sortOrder: 1,
   seoTitle: "Snow Removal Thunder Bay | Yearwise Services",
   seoDescription: "Automatic snow removal in Thunder Bay after 5cm+ snowfall. Driveway clearing and de-icing from $59 per visit."
@@ -38,8 +39,8 @@ export var defaultServices = [{
   shortDescription: "You point, we load, we haul, we dump. That simple.",
   description: "Old furniture, appliances, yard waste, construction debris, electronics, mattresses, hot tubs, sheds — if you can point at it, we can haul it. We recycle and donate whenever possible.",
   startingPrice: 99,
-  heroImage: "/images/junk-removal.webp",
-  cardImage: "/images/junk-removal.webp",
+  heroImage: mediaUrl(servicePhoto("junk-removal", "hero").id),
+  cardImage: mediaUrl(servicePhoto("junk-removal", "card").id, 960),
   sortOrder: 2,
   seoTitle: "Junk Removal Thunder Bay | Yearwise Services",
   seoDescription: "Same-day junk hauling in Thunder Bay from $99. Furniture, appliances, yard waste, and more — insured crew, fair quotes."
@@ -69,7 +70,22 @@ export var defaultFaqs = [{
   question: "What can you haul away with junk removal?",
   answer: "Almost anything — old furniture, appliances, yard waste, construction debris, electronics, mattresses, hot tubs, sheds. If you can point at it, we can haul it. The only exceptions are hazardous materials like paint, chemicals, and asbestos. We recycle and donate whenever possible.",
   sortOrder: 4
+}, {
+  id: "faq-6",
+  question: "What does the first lawn cut cost?",
+  answer: "The first lawn cut for a new customer is $49. The regular visit price is $85. After that, lawn care starts at $49 per visit, and the quote confirms the property.",
+  sortOrder: 5
 }];
 export var serviceAreas = ["Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Thunder Bay"];
+
+export type Review = {
+  name: string;
+  neighbourhood: string;
+  service: string;
+  quote: string;
+};
+
+export const reviews: Review[] = [];
+export const googleReviewsUrl = "";
 
 

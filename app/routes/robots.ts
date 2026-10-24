@@ -1,22 +1,25 @@
 
-
 var APP_URL = process.env.APP_URL ?? "http://localhost:5173";
-async function loader$12({}) {
+
+const privatePaths = `Disallow: /admin
+Disallow: /admin/
+Disallow: /admin/api/`;
+
+async function loader() {
   const body = `User-agent: *
 Allow: /
+${privatePaths}
 
 User-agent: GPTBot
 Disallow: /
 
 User-agent: OAI-SearchBot
 Allow: /
+${privatePaths}
 
 User-agent: PerplexityBot
 Allow: /
-
-Disallow: /admin
-Disallow: /admin/
-Disallow: /api/
+${privatePaths}
 
 Sitemap: ${APP_URL}/sitemap.xml
 `;
@@ -28,4 +31,4 @@ Sitemap: ${APP_URL}/sitemap.xml
   });
 }
 
-export { loader$12 as loader };
+export { loader };

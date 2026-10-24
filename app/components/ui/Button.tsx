@@ -3,7 +3,7 @@ import { cn } from "../../lib/utils";
 import { Link } from "react-router";
 
 export var variants = {
-  primary: "bg-brand-green text-white hover:opacity-90",
+  primary: "bg-brand-green text-white hover:bg-brand-green-deep",
   secondary: "bg-brand-navy text-white hover:opacity-90",
   outline: "border border-brand-navy text-brand-navy hover:bg-brand-navy hover:text-white",
   ghost: "text-brand-navy hover:bg-brand-mint"

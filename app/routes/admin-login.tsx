@@ -42,6 +42,9 @@ async function action$8({
     role: admin.role
   });
 }
+function meta() {
+  return [{ name: "robots", content: "noindex, nofollow" }];
+}
 function AdminLogin({
   loaderData
 }) {
@@ -51,4 +54,4 @@ function AdminLogin({
 }
 
 export default AdminLogin;
-export { action$8 as action, loader$11 as loader };
+export { action$8 as action, loader$11 as loader, meta };

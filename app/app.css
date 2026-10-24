@@ -21,10 +21,13 @@
 body { @apply bg-white text-foreground font-sans antialiased overflow-x-clip; }
 h1, h2, h3 { @apply font-display tracking-tight; }
 .skip-link { @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-navy focus:text-white focus:px-4 focus:py-2 focus:rounded-xl; }
-.section-pad { @apply px-5 sm:px-8 lg:px-12 py-14 lg:py-20; }
-.prose-yearwise { @apply text-muted-foreground leading-relaxed; }
-.prose-yearwise p { @apply mb-4; }
-.prose-yearwise h2 { @apply text-brand-ink text-2xl font-semibold mt-8 mb-3; }
+.section-pad { @apply mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24; }
+.prose-yearwise { @apply text-lg leading-[1.7] text-brand-ink/80; }
+.prose-yearwise p { @apply mb-5; }
+.prose-yearwise h2 { @apply mb-3 mt-10 text-2xl font-semibold text-brand-navy; }
+.prose-yearwise ul { @apply mb-5 list-disc pl-6; }
+.prose-yearwise li { @apply mb-2; }
+.prose-yearwise a { @apply font-semibold text-brand-green-deep underline-offset-2 hover:underline; }
 .display { @apply font-display font-extrabold leading-[1.05] tracking-tight text-brand-navy; }
 .eyebrow { @apply inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-green; }
 .soft-ring { box-shadow: 0 0 0 18px color-mix(in oklab, var(--color-brand-green) 12%, transparent); }
@@ -36,7 +39,6 @@ h1, h2, h3 { @apply font-display tracking-tight; }
 }
 .glass-card:hover {
   @apply shadow-xl ring-brand-green/30;
-  transform: translateY(-2px);
 }
 
 /* ── Hero video container ── */
@@ -77,17 +79,7 @@ h1, h2, h3 { @apply font-display tracking-tight; }
 
 /* ── Service mission card ── */
 .mission-card {
-  @apply relative block overflow-hidden rounded-[1.6rem];
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.mission-card:hover {
-  transform: scale(1.02);
-}
-.mission-card img {
-  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.mission-card:hover img {
-  transform: scale(1.05);
+  @apply relative block overflow-hidden rounded-xl;
 }
 
 /* ── Play button pulse ── */
@@ -120,5 +112,5 @@ h1, h2, h3 { @apply font-display tracking-tight; }
 
 @media (prefers-reduced-motion: reduce) {
   .leaf, .rise, .play-pulse { animation: none; }
-  .mission-card:hover, .mission-card:hover img, .glass-card:hover { transform: none; }
+  .glass-card:hover { transform: none; }
 }
