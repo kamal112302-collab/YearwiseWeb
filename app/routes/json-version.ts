@@ -1,0 +1,5 @@
+async function loader() {
+  return new Response(null, { status: 404 });
+}
+
+export { loader };

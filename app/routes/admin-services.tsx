@@ -1,6 +1,7 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { Link } from "react-router";
 import { db } from "../db.server";
+import { asPublicId, mediaUrl } from "../lib/media";
 import { presentService } from "../lib/service-record";
 import { requireAdmin } from "../lib/session.server";
 import { formatCurrency } from "../lib/utils";
@@ -48,7 +49,8 @@ export default function AdminServices({
                 </tr>
               ) : (
                 services.map((service) => {
-                  const photo = service.cardImage || service.heroImage;
+                  const photoId = asPublicId(service.cardImage || service.heroImage);
+                  const photo = photoId ? mediaUrl(photoId, 160) : null;
                   return (
                     <tr key={service.id} className="border-t border-border">
                       <td className="px-4 py-3">

@@ -1,26 +1,39 @@
 import { ImagePlus, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { cn } from "../../lib/utils";
+import { mediaUrl } from "../../lib/media";
 
 type ImageDropzoneProps = {
   label: string;
   name?: string;
   defaultUrl?: string;
+  defaultPublicId?: string;
   folder?: "media" | "services";
   multiple?: boolean;
-  onUploaded?: (url: string) => void;
+  valueField?: "url" | "publicId";
+  onUploaded?: (payload: { url: string; publicId: string }) => void;
 };
+
+function previewSrc(value: string, valueField: "url" | "publicId") {
+  if (!value) return "";
+  if (valueField === "url" || value.startsWith("http") || value.startsWith("/")) return value;
+  return mediaUrl(value, 800);
+}
 
 export function ImageDropzone({
   label,
   name,
   defaultUrl = "",
+  defaultPublicId = "",
   folder = "media",
   multiple = false,
+  valueField = "url",
   onUploaded,
 }: ImageDropzoneProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [url, setUrl] = useState(defaultUrl);
+  const initialValue = valueField === "publicId" ? defaultPublicId : defaultUrl;
+  const [value, setValue] = useState(initialValue);
+  const [preview, setPreview] = useState(previewSrc(initialValue, valueField));
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -31,7 +44,8 @@ export function ImageDropzone({
     if (queue.length === 0) return;
     setUploading(true);
     setError("");
-    let latest = url;
+    let latestValue = value;
+    let latestPreview = preview;
     try {
       for (const file of queue) {
         if (!file.type.startsWith("image/")) {
@@ -45,18 +59,28 @@ export function ImageDropzone({
         body.set("folder", folder);
         body.set("alt", file.name.replace(/\.[^.]+$/, ""));
         const response = await fetch("/admin/api/media-upload", { method: "POST", body });
-        const payload = (await response.json().catch(() => null)) as { url?: string; error?: string } | null;
-        if (!response.ok || !payload?.url) {
+        const payload = (await response.json().catch(() => null)) as
+          | { url?: string; publicId?: string; error?: string }
+          | null;
+        if (!response.ok || !payload?.url || !payload.publicId) {
           throw new Error(payload?.error || "Upload failed.");
         }
-        latest = payload.url;
-        setUrl(payload.url);
-        onUploaded?.(payload.url);
+        latestValue = valueField === "publicId" ? payload.publicId : payload.url;
+        latestPreview = payload.url;
+        setValue(latestValue);
+        setPreview(latestPreview);
+        onUploaded?.({ url: payload.url, publicId: payload.publicId });
       }
-      if (multiple) setUrl("");
+      if (multiple) {
+        setValue("");
+        setPreview("");
+      }
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Upload failed.");
-      if (latest) setUrl(multiple ? "" : latest);
+      if (latestValue && !multiple) {
+        setValue(latestValue);
+        setPreview(latestPreview);
+      }
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = "";
@@ -66,7 +90,7 @@ export function ImageDropzone({
   return (
     <div className="flex flex-col gap-2">
       <p className="text-sm font-medium text-brand-navy">{label}</p>
-      {name ? <input type="hidden" name={name} value={url} /> : null}
+      {name ? <input type="hidden" name={name} value={value} /> : null}
       <label
         htmlFor={inputId}
         onDragEnter={(event) => {
@@ -103,8 +127,8 @@ export function ImageDropzone({
             void uploadFiles(Array.from(event.target.files ?? []));
           }}
         />
-        {url && !multiple ? (
-          <img src={url} alt="" className="h-36 w-full rounded-xl object-cover" />
+        {preview && !multiple ? (
+          <img src={preview} alt="" className="h-36 w-full rounded-xl object-cover" />
         ) : (
           <span className="flex size-12 items-center justify-center rounded-full bg-white text-brand-green">
             {uploading ? <Upload className="size-5" aria-hidden /> : <ImagePlus className="size-5" aria-hidden />}
@@ -120,11 +144,14 @@ export function ImageDropzone({
           {error}
         </p>
       ) : null}
-      {url && name ? (
+      {value && name ? (
         <button
           type="button"
           className="self-start text-sm font-medium text-brand-navy underline-offset-2 hover:underline cursor-pointer"
-          onClick={() => setUrl("")}
+          onClick={() => {
+            setValue("");
+            setPreview("");
+          }}
         >
           Remove image
         </button>

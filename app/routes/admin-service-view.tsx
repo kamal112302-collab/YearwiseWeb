@@ -1,9 +1,15 @@
 import type { LoaderFunctionArgs } from "react-router";
 import { data, Link } from "react-router";
 import { db } from "../db.server";
+import { asPublicId, mediaUrl } from "../lib/media";
 import { presentService } from "../lib/service-record";
 import { requireAdmin } from "../lib/session.server";
 import { formatCurrency } from "../lib/utils";
+
+function photoSrc(value: string | null) {
+  const id = asPublicId(value);
+  return id ? mediaUrl(id, 800) : null;
+}
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
   await requireAdmin(request);
@@ -82,8 +88,8 @@ export default function AdminServiceView({
           <Field label="SEO description" value={service.seoDescription ?? ""} />
         </dl>
         <div className="flex flex-col gap-5 rounded-2xl border border-border bg-white p-6">
-          <Photo label="Hero image" src={service.heroImage} />
-          <Photo label="Card image" src={service.cardImage} />
+          <Photo label="Hero image" src={photoSrc(service.heroImage)} />
+          <Photo label="Card image" src={photoSrc(service.cardImage)} />
         </div>
       </div>
     </div>

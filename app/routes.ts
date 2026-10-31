@@ -15,6 +15,8 @@ export default [
   route("llms.txt", "routes/llms.ts"),
   route("sitemap.xml", "routes/sitemap.ts"),
   route("robots.txt", "routes/robots.ts"),
+  // Chrome/Cursor DevTools probes this; stub it so the terminal stays quiet.
+  route("json/version", "routes/json-version.ts"),
   route("admin/login", "routes/admin-login.tsx"),
   route("admin/api/cloudinary-sign", "routes/api-admin-cloudinary-sign.ts"),
   route("admin/api/media-upload", "routes/api-admin-media-upload.ts"),
@@ -24,6 +26,7 @@ export default [
     route("admin/services/:id/edit", "routes/admin-service-edit.tsx"),
     route("admin/services/:id", "routes/admin-service-view.tsx"),
     route("admin/faqs", "routes/admin-faqs.tsx"),
+    route("admin/snow-pricing", "routes/admin-snow-pricing.tsx"),
     route("admin/inquiries", "routes/admin-inquiries.tsx"),
     route("admin/blog", "routes/admin-blog-index.tsx"),
     route("admin/blog/new", "routes/admin-blog-new.tsx"),

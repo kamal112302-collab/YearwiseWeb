@@ -1,5 +1,5 @@
-
-import { mediaUrl, servicePhoto } from "./media";
+import { photos, servicePhoto } from "./media";
+import type { SnowPricing } from "./content.types";
 
 export var defaultSettings = {
   phone: "(807) 358-2540",
@@ -15,8 +15,8 @@ export var defaultServices = [{
   shortDescription: "A thick, green, neighbour-jealous lawn without you lifting a finger.",
   description: "Weekly cuts to seasonal treatments. We keep your lawn sharp from the first thaw through fall cleanup — mowing, edging, and treatments handled by one insured crew you already trust for snow and junk.",
   startingPrice: 49,
-  heroImage: mediaUrl(servicePhoto("lawn-care", "hero").id),
-  cardImage: mediaUrl(servicePhoto("lawn-care", "card").id, 960),
+  heroImage: servicePhoto("lawn-care", "hero").id,
+  cardImage: servicePhoto("lawn-care", "card").id,
   sortOrder: 0,
   seoTitle: "Lawn Care Thunder Bay | Yearwise Services",
   seoDescription: "Professional lawn care in Thunder Bay starting at $49 per visit. Weekly mowing, edging, and seasonal treatments from one year-round crew."
@@ -24,14 +24,14 @@ export var defaultServices = [{
   id: "seed-snow",
   slug: "snow-removal",
   name: "Snow Removal",
-  shortDescription: "Wake up to a cleared driveway — every single time. No calling, no wondering.",
-  description: "Once you're on our snow plan, we automatically come out after every significant snowfall (5cm+). Driveway cleared and de-iced so you can get to work without the 6 a.m. scramble.",
-  startingPrice: 59,
-  heroImage: mediaUrl(servicePhoto("snow-removal", "hero").id),
-  cardImage: mediaUrl(servicePhoto("snow-removal", "card").id, 960),
+  shortDescription: "Season driveway clearing after every 5 cm of snow. No calling after each storm.",
+  description: "Once you are on the snow plan, we come out after every snowfall of 5 cm or more. Driveway cleared and de-iced for the season, priced by driveway size.",
+  startingPrice: 549,
+  heroImage: servicePhoto("snow-removal", "hero").id,
+  cardImage: servicePhoto("snow-removal", "card").id,
   sortOrder: 1,
   seoTitle: "Snow Removal Thunder Bay | Yearwise Services",
-  seoDescription: "Automatic snow removal in Thunder Bay after 5cm+ snowfall. Driveway clearing and de-icing from $59 per visit."
+  seoDescription: "Season snow removal in Thunder Bay after 5 cm+ snowfall. Driveway clearing by driveway size from $549 + tax."
 }, {
   id: "seed-junk",
   slug: "junk-removal",
@@ -39,12 +39,36 @@ export var defaultServices = [{
   shortDescription: "You point, we load, we haul, we dump. That simple.",
   description: "Old furniture, appliances, yard waste, construction debris, electronics, mattresses, hot tubs, sheds — if you can point at it, we can haul it. We recycle and donate whenever possible.",
   startingPrice: 99,
-  heroImage: mediaUrl(servicePhoto("junk-removal", "hero").id),
-  cardImage: mediaUrl(servicePhoto("junk-removal", "card").id, 960),
+  heroImage: servicePhoto("junk-removal", "hero").id,
+  cardImage: servicePhoto("junk-removal", "card").id,
   sortOrder: 2,
   seoTitle: "Junk Removal Thunder Bay | Yearwise Services",
   seoDescription: "Same-day junk hauling in Thunder Bay from $99. Furniture, appliances, yard waste, and more — insured crew, fair quotes."
 }];
+
+export const defaultSnowPricing: SnowPricing = {
+  tiers: [
+    { id: "tier-1", label: "1-car driveway", price: 549, sortOrder: 0 },
+    { id: "tier-2", label: "2-car driveway", price: 699, sortOrder: 1 },
+    { id: "tier-3", label: "3–4 car driveway", price: 899, sortOrder: 2 },
+  ],
+  addOns: [
+    { id: "addon-1", name: "Sidewalk, front entrance, and deck shovelling", price: null, sortOrder: 0 },
+    { id: "addon-2", name: "Staircase shovelling", price: null, sortOrder: 1 },
+    { id: "addon-3", name: "Salting / ice-melter", price: null, sortOrder: 2 },
+  ],
+  earlyBird: {
+    discount: 100,
+    deadline: "",
+    active: false,
+  },
+  commercial: {
+    heading: "Commercial Snow Removal & Salting",
+    body: "Lots, loading docks, and walkways cleared for businesses across Thunder Bay. Sand mix salting available. Call for a commercial quote.",
+    priceNote: "Commercial pricing is quoted per property.",
+    image: photos.snowPlow.id,
+  },
+};
 export var defaultFaqs = [{
   id: "faq-1",
   question: "What areas in Thunder Bay do you serve?",
