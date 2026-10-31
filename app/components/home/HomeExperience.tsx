@@ -3,10 +3,14 @@ import { Link } from "react-router";
 import { defaultFaqs, googleReviewsUrl, reviews } from "~/lib/content.data";
 import { comparisons, mediaUrl, photos } from "~/lib/media";
 import { BeforeAfter } from "~/components/storefront/BeforeAfter";
+import { ExpandingCards } from "~/components/ui/expanding-cards";
+import { SeasonPackageCard } from "~/components/ui/season-package-card";
 import { servicePageCopy } from "~/lib/service-pages";
 import { formatCurrency } from "~/lib/utils";
 import type { ServiceRecord, SnowPricing } from "~/lib/content.types";
 import { useHomeMotion } from "./useHomeMotion";
+
+const seasonCardImages = [photos.snowNight, photos.snowAction, photos.snowStorm] as const;
 
 const quoteClass =
   "inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-6 text-sm font-semibold text-white hover:bg-brand-green-deep transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2";
@@ -162,33 +166,21 @@ export function HomeExperience({
             </p>
           </div>
 
-          <div className="mt-12 grid gap-3 sm:grid-cols-3 sm:gap-4">
+          <div className="mt-12 grid gap-4 sm:grid-cols-3">
             {snowPricing.tiers.map((tier, index) => {
               const featured = index === 1 || (snowPricing.tiers.length === 1 && index === 0);
+              const shot = seasonCardImages[index % seasonCardImages.length];
               return (
-                <article
+                <SeasonPackageCard
                   key={tier.id}
-                  className={
-                    featured
-                      ? "flex flex-col justify-between rounded-xl bg-brand-mint px-5 py-6 text-brand-navy sm:px-6 sm:py-8"
-                      : "flex flex-col justify-between rounded-xl border border-white/15 bg-white/5 px-5 py-6 sm:px-6 sm:py-8"
-                  }
-                >
-                  <div>
-                    {featured ? (
-                      <p className="text-xs font-semibold tracking-wide text-brand-green-deep">Most driveways</p>
-                    ) : (
-                      <p className="text-xs font-semibold tracking-wide text-white/55">Season package</p>
-                    )}
-                    <h3 className={`mt-3 text-lg font-semibold sm:text-xl ${featured ? "text-brand-navy" : "text-white"}`}>
-                      {tier.label}
-                    </h3>
-                  </div>
-                  <p className={`mt-8 font-display tabular-nums tracking-tight ${featured ? "text-brand-navy" : "text-white"}`}>
-                    <span className="text-4xl font-extrabold sm:text-5xl">{formatCurrency(tier.price)}</span>
-                    <span className={`ml-2 text-sm font-medium ${featured ? "text-brand-navy/70" : "text-white/65"}`}>+ tax / season</span>
-                  </p>
-                </article>
+                  title={tier.label}
+                  subtitle={featured ? "Most driveways" : "Season package"}
+                  priceLabel={formatCurrency(tier.price)}
+                  priceNote="+ tax / season"
+                  imageUrl={mediaUrl(shot.id, 900)}
+                  href="/contact"
+                  featured={featured}
+                />
               );
             })}
           </div>
@@ -275,8 +267,36 @@ export function HomeExperience({
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <BeforeAfter before={comparisons["lawn-care"].before} after={comparisons["lawn-care"].after} />
+      <section aria-labelledby="results-heading" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.15fr)] lg:gap-16">
+          <div>
+            <p className="text-sm font-semibold text-brand-green-deep">Real Thunder Bay property</p>
+            <h2 id="results-heading" className="display mt-3 text-3xl sm:text-4xl">
+              See the difference a cleanup makes.
+            </h2>
+            <p className="mt-4 max-w-md text-base leading-relaxed text-brand-navy/80">
+              Cedar needles, moss, and months of debris turned a side path into a mess. One visit cleared the pavers and opened the walkway again — the kind of before-and-after we leave on lawns, driveways, and junk piles across the city.
+            </p>
+            <ul className="mt-6 flex flex-col gap-2 text-sm text-brand-navy">
+              <li>Fall cleanup and debris haul-away</li>
+              <li>Paths, beds, and edges left usable</li>
+              <li>Quote before work — no surprises</li>
+            </ul>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link to="/contact" className={quoteClass}>
+                Get a free quote <ArrowRight className="size-4" aria-hidden />
+              </Link>
+              <a href={`tel:${tel}`} className="inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">
+                Call {phone}
+              </a>
+            </div>
+          </div>
+          <BeforeAfter
+            before={comparisons["lawn-care"].before}
+            after={comparisons["lawn-care"].after}
+            hideCaption
+          />
+        </div>
       </section>
 
       <section className="border-y border-brand-green/10 bg-white">
@@ -309,26 +329,44 @@ export function HomeExperience({
         ) : null}
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <h2 className="display max-w-xl text-3xl sm:text-4xl">The visit, spelled out.</h2>
-        <div className="mt-8 grid gap-10 lg:grid-cols-3">
-          {services.map((service) => {
-            const copy = servicePageCopy[service.slug];
-            if (!copy) return null;
-            return (
-              <article key={service.slug}>
-                <h3 className="text-xl font-semibold text-brand-navy">{service.name}</h3>
-                <ul className="mt-4 flex flex-col gap-2 text-sm text-brand-navy/80">
-                  {copy.included.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <Link to={`/services/${service.slug}`} className="mt-5 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">
-                  Service details <ArrowRight className="ml-1 size-4" aria-hidden />
-                </Link>
-              </article>
-            );
-          })}
+      <section aria-labelledby="visit-heading" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <h2 id="visit-heading" className="display max-w-xl text-3xl sm:text-4xl">
+          The visit, spelled out.
+        </h2>
+        <p className="mt-3 max-w-lg text-base text-brand-navy/80">Pick a service. This is the visit.</p>
+        <div className="mt-8">
+          <ExpandingCards
+            defaultId="snow-removal"
+            items={services
+              .filter((service) => servicePageCopy[service.slug])
+              .map((service) => ({
+                id: service.slug,
+                title: service.name,
+                imageUrl: mediaUrl(service.cardImage || service.heroImage || photos.lawnStriped.id, 1200),
+              }))}
+            renderExpanded={(item) => {
+              const copy = servicePageCopy[item.id];
+              if (!copy) return null;
+              return (
+                <div className="text-white">
+                  <h3 className="text-2xl font-semibold sm:text-3xl">{item.title}</h3>
+                  <ol className="mt-5 flex flex-col gap-2.5">
+                    {copy.steps.map((step, index) => (
+                      <li key={step.title} className="text-base font-medium text-white/90">
+                        <span className="text-brand-mint">{index + 1}.</span> {step.title}
+                      </li>
+                    ))}
+                  </ol>
+                  <Link
+                    to={`/services/${item.id}`}
+                    className="mt-6 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-mint hover:underline"
+                  >
+                    Service details <ArrowRight className="ml-1 size-4" aria-hidden />
+                  </Link>
+                </div>
+              );
+            }}
+          />
         </div>
       </section>
 
