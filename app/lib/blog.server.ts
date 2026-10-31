@@ -37,9 +37,9 @@ export var fallbackPosts = [{
   coverImage: snowBookCover,
   publishedAt: new Date("2026-10-18"),
   author: "Yearwise Services",
-  bodyRichText: `<p>Book a snow plan before the first storm if you want the driveway cleared without calling. Yearwise snow removal in Thunder Bay starts at $59 a visit. Once you are on the plan, the crew comes after 5 cm or more of snow.</p><h2>What the quote names</h2><p>The quote names the driveway and the entrance paths. De-icing is only on the surfaces written in that quote. Surfaces that were not named are not part of the visit.</p><h2>When to call</h2><p>Call <a href="tel:8073582540">(807) 358-2540</a> before the first 5 cm if you want to be on the route. People who are not on a plan can ask about a one-off visit. Same-day is not guaranteed.</p><p>Year-round customers — lawn, snow, and junk — save 20% and get first pick of the schedule. There is no long-term contract.</p>`,
+  bodyRichText: `<p>Book a snow plan before the first storm if you want the driveway cleared without calling. Yearwise season packages in Thunder Bay start at $549 + tax for a 1-car driveway. Once you are on the plan, the crew comes after 5 cm or more of snow.</p><h2>What the quote names</h2><p>The quote names the driveway size and the entrance paths. De-icing is only on the surfaces written in that quote. Surfaces that were not named are not part of the visit.</p><h2>When to call</h2><p>Call <a href="tel:8073582540">(807) 358-2540</a> before the first 5 cm if you want to be on the route. People who are not on a plan can ask about a one-off visit. Same-day is not guaranteed.</p><p>Year-round customers — lawn, snow, and junk — save 20% and get first pick of the schedule. There is no long-term contract.</p>`,
   seoTitle: "When to Book Snow Removal in Thunder Bay | Yearwise",
-  seoDescription: "Book Yearwise snow removal before the first 5 cm. Driveway and entrance paths from $59. De-icing only on surfaces named in the quote."
+  seoDescription: "Book Yearwise snow removal before the first 5 cm. Season packages from $549 + tax by driveway size."
 }, {
   id: "post-junk-price",
   slug: "how-junk-removal-is-priced-thunder-bay",

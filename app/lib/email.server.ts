@@ -16,13 +16,24 @@ export async function sendInquiryNotificationEmail({
   phone,
   service,
   neighbourhood,
-  message
+  message,
+  detailsLine,
+}: {
+  to: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  service?: string | null;
+  neighbourhood?: string | null;
+  message: string;
+  detailsLine?: string | null;
 }) {
   const client = getResend();
   if (!client) {
     console.log("[email] Resend not configured, inquiry logged:", {
       name,
-      email
+      email,
+      detailsLine,
     });
     return;
   }
@@ -30,18 +41,17 @@ export async function sendInquiryNotificationEmail({
     from: "Yearwise Services <onboarding@resend.dev>",
     to,
     replyTo: email,
-    subject: `New quote request from ${name}`,
+    subject: `New quote request from ${name}${service ? ` — ${service}` : ""}`,
     html: `
       <h2>New quote request</h2>
       <p><strong>Name:</strong> ${name}</p>
       <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Phone:</strong> ${phone ?? "—"}</p>
-      <p><strong>Service:</strong> ${service ?? "—"}</p>
-      <p><strong>Neighbourhood:</strong> ${neighbourhood ?? "—"}</p>
+      <p><strong>Phone:</strong> ${phone || "—"}</p>
+      <p><strong>Service:</strong> ${service || "—"}</p>
+      <p><strong>Neighbourhood:</strong> ${neighbourhood || "—"}</p>
+      ${detailsLine ? `<p><strong>What they need:</strong> ${detailsLine}</p>` : ""}
       <p><strong>Message:</strong></p>
       <p>${message.replace(/\n/g, "<br>")}</p>
-    `
+    `,
   });
 }
-
-

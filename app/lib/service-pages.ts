@@ -49,29 +49,34 @@ export const servicePageCopy: Record<string, ServicePageCopy> = {
   },
   "snow-removal": {
     h1: "Snow removal in Thunder Bay",
-    lead: "Once you are on the plan, we come out after every snowfall of 5 cm or more. The driveway is cleared and de-iced. From $59 a visit.",
+    lead: "Once you are on the plan, we come out after every snowfall of 5 cm or more. Season packages start at $549 + tax, sized to your driveway.",
     who: "Households that do not want to call a plow operator at 6 a.m. after every storm.",
     included: [
       "Automatic visits after 5 cm or more of snow",
-      "Driveway clearing",
-      "Entrance paths",
+      "Driveway clearing for the season",
+      "Entrance paths named in the quote",
       "De-icing on the surfaces in your quote",
     ],
     excluded: [
       "Surfaces that were not named in the quote",
+      "Add-ons that were not quoted (sidewalk, staircase, salting)",
     ],
-    pricing: "Snow removal starts at $59 per visit. The quote names the driveway and any paths included. Nothing is billed from the website price alone.",
+    pricing: "Season packages are priced by driveway size, starting at $549 + tax. The quote confirms the driveway before anything is billed. Add-ons are priced separately.",
     booking: "Plan customers are already on the route. Emergency snow removal for someone not on a plan can often be same-day or next-day. Call (807) 358-2540.",
     steps: [
       { title: "Book before the first storm", body: "If you want the driveway cleared without calling, get on the plan before the first 5 cm. Call (807) 358-2540." },
       { title: "We come after 5 cm", body: "Once you are on the plan, the crew comes after every snowfall of 5 cm or more. You do not text or call after each storm." },
       { title: "Only what the quote names", body: "The driveway and the entrance paths in the quote are cleared. De-icing is only on the surfaces written in that quote." },
-      { title: "Starts at $59", body: "The quote confirms the property. Someone who is not on a plan can ask about a one-off visit. Same-day is not guaranteed." },
+      { title: "Priced for the season", body: "Packages start at $549 + tax for a 1-car driveway. The quote confirms the property. Someone who is not on a plan can ask about a one-off visit." },
     ],
     faqs: [
       {
         question: "Do I have to call every time it snows?",
         answer: "No. Once you are on the snow plan, we come out after every significant snowfall of 5 cm or more. You wake up to a cleared, de-iced driveway.",
+      },
+      {
+        question: "How is the season package priced?",
+        answer: "By driveway size. A 1-car driveway starts at $549 + tax for the season. Larger driveways are higher. Add-ons such as sidewalks, staircases, and salting are quoted separately.",
       },
       {
         question: "How fast can you start?",

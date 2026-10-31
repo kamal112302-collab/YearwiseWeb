@@ -112,7 +112,7 @@ export function serviceJsonLd(service) {
       "@type": "Offer",
       price: service.price,
       priceCurrency: "CAD",
-      description: `Starting at ${service.price} CAD per visit`
+      description: `Starting at ${service.price} CAD ${service.priceUnit ?? "per visit"}`
     }
   };
 }

@@ -1,4 +1,4 @@
-import { getSiteSettings, getServices } from "../lib/content.server";
+import { getSiteSettings, getServices, getSnowPricing } from "../lib/content.server";
 import { buildMeta, JsonLd, localBusinessJsonLd } from "../lib/seo";
 import { Fragment } from "react";
 import { HomeExperience } from "../components/home/HomeExperience";
@@ -6,10 +6,15 @@ import { serviceAreas } from "../lib/content.data";
 import { mediaUrl, photos } from "../lib/media";
 
 async function loader$23({}) {
-  const [settings, services] = await Promise.all([getSiteSettings(), getServices()]);
+  const [settings, services, snowPricing] = await Promise.all([
+    getSiteSettings(),
+    getServices(),
+    getSnowPricing(),
+  ]);
   return {
     settings,
-    services
+    services,
+    snowPricing,
   };
 }
 function meta$8({
@@ -28,9 +33,10 @@ function Home({
 }) {
   const {
     settings,
-    services
+    services,
+    snowPricing
   } = loaderData;
-  return <Fragment> <JsonLd data={localBusinessJsonLd(settings)} /> <HomeExperience phone={settings.phone} services={services} areas={serviceAreas} /></Fragment>;
+  return <Fragment> <JsonLd data={localBusinessJsonLd(settings)} /> <HomeExperience phone={settings.phone} services={services} areas={serviceAreas} snowPricing={snowPricing} /></Fragment>;
 }
 
 export default Home;

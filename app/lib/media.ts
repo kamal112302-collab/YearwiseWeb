@@ -9,6 +9,25 @@ export function mediaUrl(id: string, width = 1600) {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/f_auto,q_auto,w_${width}/${id}`;
 }
 
+/** Normalize a stored Cloudinary public ID or delivery URL into a public ID. */
+export function asPublicId(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  if (!trimmed.startsWith("http")) return trimmed.replace(/^\/+/, "");
+  try {
+    const afterUpload = new URL(trimmed).pathname.split("/upload/")[1];
+    if (!afterUpload) return trimmed;
+    const segments = afterUpload.split("/").filter(Boolean);
+    while (segments.length > 1 && (segments[0].includes(",") || /^v\d+$/.test(segments[0]))) {
+      segments.shift();
+    }
+    return segments.join("/").replace(/\.[a-z0-9]+$/i, "");
+  } catch {
+    return trimmed;
+  }
+}
+
 function photo(id: string, alt: string): Photo {
   return { id: `yearwise/web/${id}`, alt };
 }

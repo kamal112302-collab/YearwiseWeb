@@ -1,11 +1,11 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { defaultFaqs, googleReviewsUrl, reviews } from "~/lib/content.data";
-import { comparisons, mediaUrl, photos, servicePhoto } from "~/lib/media";
+import { comparisons, mediaUrl, photos } from "~/lib/media";
 import { BeforeAfter } from "~/components/storefront/BeforeAfter";
 import { servicePageCopy } from "~/lib/service-pages";
 import { formatCurrency } from "~/lib/utils";
-import type { ServiceRecord } from "~/lib/content.types";
+import type { ServiceRecord, SnowPricing } from "~/lib/content.types";
 import { useHomeMotion } from "./useHomeMotion";
 
 const quoteClass =
@@ -24,7 +24,17 @@ const homeFaqs = ["faq-1", "faq-4", "faq-5"]
   .map((id) => defaultFaqs.find((faq) => faq.id === id))
   .filter((faq): faq is (typeof defaultFaqs)[number] => Boolean(faq));
 
-export function HomeExperience({ phone, services, areas }: { phone: string; services: ServiceRecord[]; areas: string[] }) {
+export function HomeExperience({
+  phone,
+  services,
+  areas,
+  snowPricing,
+}: {
+  phone: string;
+  services: ServiceRecord[];
+  areas: string[];
+  snowPricing: SnowPricing;
+}) {
   const tel = phone.replace(/[^\d+]/g, "");
   const rootRef = useHomeMotion();
   const bySlug = (slug: string) => services.find((service) => service.slug === slug);
@@ -32,6 +42,7 @@ export function HomeExperience({ phone, services, areas }: { phone: string; serv
   const snow = bySlug("snow-removal");
   const junk = bySlug("junk-removal");
   const priced = [lawn, snow, junk].filter((service): service is ServiceRecord => Boolean(service));
+  const snowFrom = snowPricing.tiers[0]?.price ?? snow?.startingPrice ?? 549;
 
   return (
     <div ref={rootRef} className="bg-brand-surface">
@@ -107,10 +118,12 @@ export function HomeExperience({ phone, services, areas }: { phone: string; serv
 
           <div className="grid gap-4 sm:grid-cols-3">
             {services.map((service) => {
-              const card = servicePhoto(service.slug, "card");
+              const cardId = service.cardImage || service.heroImage;
               return (
                 <Link key={service.slug} to={`/services/${service.slug}`} data-reveal className="mission-card group h-[26rem] cursor-pointer sm:h-[32rem]">
-                  <img src={mediaUrl(card.id, 800)} alt={card.alt} width={800} height={1067} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                  {cardId ? (
+                    <img src={mediaUrl(cardId, 800)} alt="" width={800} height={1067} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                  ) : null}
                   <span className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/30 to-transparent" />
                   <span className="absolute inset-x-0 bottom-0 p-5 text-white">
                     <span className="block text-lg font-semibold group-hover:text-white">{service.name}</span>
@@ -190,7 +203,10 @@ export function HomeExperience({ phone, services, areas }: { phone: string; serv
               {priced.map((service) => (
                 <li key={service.slug} className="flex items-center justify-between gap-4 border-b border-brand-navy/10 pb-3">
                   <span className="font-medium text-brand-navy">{service.name}</span>
-                  <span className="text-brand-navy">From {formatCurrency(service.startingPrice)}</span>
+                  <span className="text-brand-navy">
+                    From {formatCurrency(service.slug === "snow-removal" ? snowFrom : service.startingPrice)}
+                    {service.slug === "snow-removal" ? " / season" : ""}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -212,6 +228,145 @@ export function HomeExperience({ phone, services, areas }: { phone: string; serv
               Get a quote <ArrowRight className="size-4" aria-hidden />
             </Link>
           </article>
+        </div>
+      </section>
+
+      <section aria-labelledby="snow-plan-heading" className="relative overflow-hidden bg-brand-navy text-white">
+        {(snow?.cardImage || snow?.heroImage) ? (
+          <>
+            <img
+              src={mediaUrl((snow.cardImage || snow.heroImage)!, 2000)}
+              alt=""
+              width={2000}
+              height={1200}
+              className="absolute inset-0 h-full w-full object-cover opacity-35"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-navy/80 via-brand-navy/92 to-brand-navy" />
+          </>
+        ) : null}
+
+        <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+          <div className="max-w-2xl">
+            <p className="text-sm text-white/70">Thunder Bay · automatic after 5 cm</p>
+            <h2 id="snow-plan-heading" className="mt-3 font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+              Snow removal for the season.
+            </h2>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">
+              Book the driveway once. The crew comes after every 5 cm — no calling after each storm. Season prices below are before tax; the quote confirms the size.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-3 sm:grid-cols-3 sm:gap-4">
+            {snowPricing.tiers.map((tier, index) => {
+              const featured = index === 1 || (snowPricing.tiers.length === 1 && index === 0);
+              return (
+                <article
+                  key={tier.id}
+                  className={
+                    featured
+                      ? "flex flex-col justify-between rounded-xl bg-brand-mint px-5 py-6 text-brand-navy sm:px-6 sm:py-8"
+                      : "flex flex-col justify-between rounded-xl border border-white/15 bg-white/5 px-5 py-6 sm:px-6 sm:py-8"
+                  }
+                >
+                  <div>
+                    {featured ? (
+                      <p className="text-xs font-semibold tracking-wide text-brand-green-deep">Most driveways</p>
+                    ) : (
+                      <p className="text-xs font-semibold tracking-wide text-white/55">Season package</p>
+                    )}
+                    <h3 className={`mt-3 text-lg font-semibold sm:text-xl ${featured ? "text-brand-navy" : "text-white"}`}>
+                      {tier.label}
+                    </h3>
+                  </div>
+                  <p className={`mt-8 font-display tabular-nums tracking-tight ${featured ? "text-brand-navy" : "text-white"}`}>
+                    <span className="text-4xl font-extrabold sm:text-5xl">{formatCurrency(tier.price)}</span>
+                    <span className={`ml-2 text-sm font-medium ${featured ? "text-brand-navy/70" : "text-white/65"}`}>+ tax / season</span>
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+
+          {snowPricing.earlyBird.active ? (
+            <p className="mt-6 rounded-xl bg-brand-green-deep px-5 py-4 text-sm font-semibold text-white sm:text-base">
+              Book before {snowPricing.earlyBird.deadline} and save {formatCurrency(snowPricing.earlyBird.discount)} on any season package.
+            </p>
+          ) : snowPricing.earlyBird.discount > 0 ? (
+            <p className="mt-6 border-l-2 border-brand-green pl-4 text-sm text-white/80 sm:text-base">
+              Early-bird: save {formatCurrency(snowPricing.earlyBird.discount)} when the season deadline is announced. Ask when you call.
+            </p>
+          ) : null}
+
+          <div className="mt-14 grid gap-10 border-t border-white/15 pt-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
+            <div>
+              <h3 className="text-xl font-semibold text-white">Add-ons</h3>
+              <p className="mt-2 max-w-md text-sm text-white/70">
+                Quoted with the driveway — not guessed from this page.
+              </p>
+              <ul className="mt-6 divide-y divide-white/15 border-y border-white/15">
+                {snowPricing.addOns.map((addOn) => (
+                  <li key={addOn.id} className="flex items-baseline justify-between gap-4 py-4">
+                    <span className="text-base text-white/90">{addOn.name}</span>
+                    <span className="shrink-0 tabular-nums text-sm text-white/70">
+                      {addOn.price == null ? "Ask for pricing" : formatCurrency(addOn.price)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex flex-col justify-end gap-4">
+              <Link to="/contact" className={quoteClass}>
+                Book a snow plan <ArrowRight className="size-4" aria-hidden />
+              </Link>
+              <a
+                href={`tel:${tel}`}
+                className="inline-flex min-h-12 cursor-pointer items-center justify-center rounded-full border border-white/40 px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/10"
+              >
+                Call {phone}
+              </a>
+              <Link
+                to="/services/snow-removal"
+                className="inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-white/85 underline-offset-4 hover:text-white hover:underline"
+              >
+                Full snow removal details <ArrowRight className="ml-1 size-4" aria-hidden />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative border-t border-white/10 bg-black/25">
+          <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:items-center lg:gap-14 lg:px-8 lg:py-16">
+            <div>
+              <h3 className="font-display text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+                {snowPricing.commercial.heading}
+              </h3>
+              <p className="mt-3 max-w-xl text-base leading-relaxed text-white/80">{snowPricing.commercial.body}</p>
+              <p className="mt-3 text-sm text-white/70">{snowPricing.commercial.priceNote}</p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <a href={`tel:${tel}`} className={quoteClass}>
+                  Commercial quote <ArrowRight className="size-4" aria-hidden />
+                </a>
+                <Link
+                  to="/services/snow-removal"
+                  className="inline-flex min-h-12 cursor-pointer items-center rounded-full border border-white/35 px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-white/10"
+                >
+                  Snow page
+                </Link>
+              </div>
+            </div>
+            {snowPricing.commercial.image ? (
+              <img
+                src={mediaUrl(snowPricing.commercial.image, 1200)}
+                alt="Commercial snow clearing equipment"
+                width={1200}
+                height={900}
+                className="h-[16rem] w-full rounded-xl object-cover sm:h-[20rem]"
+                loading="lazy"
+              />
+            ) : null}
+          </div>
         </div>
       </section>
 

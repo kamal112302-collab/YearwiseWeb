@@ -25,6 +25,12 @@ enum InquiryStatus {
   handled
 }
 
+enum ServicePhotoRole {
+  gallery
+  before
+  after
+}
+
 model AdminUser {
   id           String    @id @default(cuid())
   email        String    @unique
@@ -34,20 +40,54 @@ model AdminUser {
 }
 
 model Service {
-  id               String   @id @default(cuid())
-  slug             String   @unique
+  id               String         @id @default(cuid())
+  slug             String         @unique
   name             String
   shortDescription String?
-  description      String   @db.Text
-  startingPrice    Decimal  @db.Decimal(10, 2)
+  description      String         @db.Text
+  startingPrice    Decimal        @db.Decimal(10, 2)
   heroImage        String?
   cardImage        String?
-  sortOrder        Int      @default(0)
+  sortOrder        Int            @default(0)
   seoTitle         String?
   seoDescription   String?
-  isActive         Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  isActive         Boolean        @default(true)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  photos           ServicePhoto[]
+}
+
+model ServicePhoto {
+  id        String           @id @default(cuid())
+  serviceId String
+  service   Service          @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  role      ServicePhotoRole
+  publicId  String
+  altText   String
+  sortOrder Int              @default(0)
+  createdAt DateTime         @default(now())
+
+  @@index([serviceId, role])
+}
+
+model SnowPricingTier {
+  id        String   @id @default(cuid())
+  label     String
+  price     Decimal  @db.Decimal(10, 2)
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SnowAddOn {
+  id        String   @id @default(cuid())
+  name      String
+  price     Decimal? @db.Decimal(10, 2)
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Faq {
@@ -68,6 +108,7 @@ model Inquiry {
   service       String?
   neighbourhood String?
   message       String        @db.Text
+  details       Json?
   status        InquiryStatus @default(new)
   createdAt     DateTime      @default(now())
 }
