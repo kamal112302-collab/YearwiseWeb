@@ -38,6 +38,14 @@ export const photos = {
   lawnGolden: photo("lawn-golden", "A walk-behind mower cutting grass in warm evening light"),
   lawnClose: photo("lawn-close", "Close view of a lawn mower on a freshly cut green lawn"),
   lawnAeration: photo("lawn-aeration", "A crew member running an aerator across a residential lawn"),
+  cleanupBefore: photo(
+    "cleanup-before",
+    "A Thunder Bay side path buried under cedar needles and debris before cleanup",
+  ),
+  cleanupAfter: photo(
+    "cleanup-after",
+    "The same path cleared and washed, with clean pavers after Yearwise cleanup",
+  ),
   snowNight: photo("snow-night", "A plow truck with headlights on, clearing snow at dusk with pines behind it"),
   snowAction: photo("snow-action", "A plow truck pushing a bank of snow at sunrise"),
   snowStorm: photo("snow-storm", "A snowplow driving through heavy snowfall with its warning lights on"),
@@ -71,7 +79,7 @@ export function servicePhoto(slug: string, kind: "hero" | "card" = "hero") {
 }
 
 export const comparisons = {
-  "lawn-care": { before: photos.lawnClose, after: photos.lawnStriped },
+  "lawn-care": { before: photos.cleanupBefore, after: photos.cleanupAfter },
   "snow-removal": { before: photos.snowStorm, after: photos.snowAction },
   "junk-removal": { before: photos.junkBackyard, after: photos.junkLoading },
 } as const;
