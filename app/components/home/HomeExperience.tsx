@@ -134,101 +134,6 @@ export function HomeExperience({
             })}
           </div>
         </div>
-        <div className="mt-16">
-          <BeforeAfter before={comparisons["lawn-care"].before} after={comparisons["lawn-care"].after} />
-        </div>
-      </section>
-
-      <section className="border-y border-brand-green/10 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold text-brand-navy">{proof.join(" · ")}</p>
-          <p className="mt-2 text-sm text-brand-navy/80">Fall cleanup is open, and a snow plan can be booked before the first storm.</p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <h2 className="display max-w-xl text-3xl sm:text-4xl">Reviews</h2>
-        {reviews.length === 0 ? (
-          <p className="mt-4 max-w-xl text-base text-brand-navy/80">
-            Google reviews are being added. Call <a href={`tel:${tel}`} className="font-semibold text-brand-green-deep hover:underline">{phone}</a> and ask about a property near you.
-          </p>
-        ) : (
-          <ul className="mt-8 flex max-w-3xl flex-col gap-8">
-            {reviews.map((review) => (
-              <li key={`${review.name}-${review.service}`}>
-                <p className="text-base text-brand-navy">{review.quote}</p>
-                <p className="mt-2 text-sm text-brand-navy/70">{review.name}, {review.neighbourhood}. {review.service}.</p>
-              </li>
-            ))}
-          </ul>
-        )}
-        {googleReviewsUrl ? (
-          <a href={googleReviewsUrl} className="mt-4 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">Google reviews</a>
-        ) : reviews.length > 0 ? (
-          <a href={`tel:${tel}`} className="mt-4 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">Call {phone}</a>
-        ) : null}
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <h2 className="display max-w-xl text-3xl sm:text-4xl">The visit, spelled out.</h2>
-        <div className="mt-8 grid gap-10 lg:grid-cols-3">
-          {services.map((service) => {
-            const copy = servicePageCopy[service.slug];
-            if (!copy) return null;
-            return (
-              <article key={service.slug}>
-                <h3 className="text-xl font-semibold text-brand-navy">{service.name}</h3>
-                <ul className="mt-4 flex flex-col gap-2 text-sm text-brand-navy/80">
-                  {copy.included.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <Link to={`/services/${service.slug}`} className="mt-5 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">
-                  Service details <ArrowRight className="ml-1 size-4" aria-hidden />
-                </Link>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
-        <h2 className="display max-w-xl text-3xl sm:text-4xl">One job, or the whole year.</h2>
-        <p className="mt-3 max-w-lg text-sm text-muted-foreground">Starting prices. The quote confirms the property. Nothing is billed from this page.</p>
-        <div className="mt-8 grid gap-12 border-t border-brand-navy/10 pt-8 lg:grid-cols-2">
-          <article>
-            <h3 className="text-2xl font-semibold text-brand-navy">As you need it</h3>
-            <p className="mt-2 text-sm text-muted-foreground">Book a visit when the lawn, the snow, or the pile needs it.</p>
-            <ul className="mt-6 flex flex-col gap-3 text-sm">
-              {priced.map((service) => (
-                <li key={service.slug} className="flex items-center justify-between gap-4 border-b border-brand-navy/10 pb-3">
-                  <span className="font-medium text-brand-navy">{service.name}</span>
-                  <span className="text-brand-navy">
-                    From {formatCurrency(service.slug === "snow-removal" ? snowFrom : service.startingPrice)}
-                    {service.slug === "snow-removal" ? " / season" : ""}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-4 text-sm text-brand-navy">First lawn cut is $49 <span className="text-muted-foreground">(regular $85)</span>.</p>
-            <Link to="/contact" className={`${quoteClass} mt-8`}>
-              Get a quote <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </article>
-
-          <article>
-            <h3 className="text-2xl font-semibold text-brand-navy">One crew, every season</h3>
-            <p className="mt-2 text-sm text-brand-navy/80">Lawn, snow, and junk with the same people. Save 20% and get first pick of the schedule.</p>
-            <ul className="mt-6 flex flex-col gap-3 text-sm text-brand-navy">
-              <li>20% off year-round</li>
-              <li>First pick of the schedule</li>
-              <li>Cancel anytime. No long-term contract</li>
-            </ul>
-            <Link to="/contact" className={`${quoteClass} mt-8`}>
-              Get a quote <ArrowRight className="size-4" aria-hidden />
-            </Link>
-          </article>
-        </div>
       </section>
 
       <section aria-labelledby="snow-plan-heading" className="relative overflow-hidden bg-brand-navy text-white">
@@ -367,6 +272,102 @@ export function HomeExperience({
               />
             ) : null}
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <BeforeAfter before={comparisons["lawn-care"].before} after={comparisons["lawn-care"].after} />
+      </section>
+
+      <section className="border-y border-brand-green/10 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <p className="text-sm font-semibold text-brand-navy">{proof.join(" · ")}</p>
+          <p className="mt-2 text-sm text-brand-navy/80">Fall cleanup is open, and a snow plan can be booked before the first storm.</p>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <h2 className="display max-w-xl text-3xl sm:text-4xl">Reviews</h2>
+        {reviews.length === 0 ? (
+          <p className="mt-4 max-w-xl text-base text-brand-navy/80">
+            Google reviews are being added. Call <a href={`tel:${tel}`} className="font-semibold text-brand-green-deep hover:underline">{phone}</a> and ask about a property near you.
+          </p>
+        ) : (
+          <ul className="mt-8 flex max-w-3xl flex-col gap-8">
+            {reviews.map((review) => (
+              <li key={`${review.name}-${review.service}`}>
+                <p className="text-base text-brand-navy">{review.quote}</p>
+                <p className="mt-2 text-sm text-brand-navy/70">{review.name}, {review.neighbourhood}. {review.service}.</p>
+              </li>
+            ))}
+          </ul>
+        )}
+        {googleReviewsUrl ? (
+          <a href={googleReviewsUrl} className="mt-4 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">Google reviews</a>
+        ) : reviews.length > 0 ? (
+          <a href={`tel:${tel}`} className="mt-4 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">Call {phone}</a>
+        ) : null}
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <h2 className="display max-w-xl text-3xl sm:text-4xl">The visit, spelled out.</h2>
+        <div className="mt-8 grid gap-10 lg:grid-cols-3">
+          {services.map((service) => {
+            const copy = servicePageCopy[service.slug];
+            if (!copy) return null;
+            return (
+              <article key={service.slug}>
+                <h3 className="text-xl font-semibold text-brand-navy">{service.name}</h3>
+                <ul className="mt-4 flex flex-col gap-2 text-sm text-brand-navy/80">
+                  {copy.included.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+                <Link to={`/services/${service.slug}`} className="mt-5 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">
+                  Service details <ArrowRight className="ml-1 size-4" aria-hidden />
+                </Link>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+        <h2 className="display max-w-xl text-3xl sm:text-4xl">One job, or the whole year.</h2>
+        <p className="mt-3 max-w-lg text-sm text-muted-foreground">Starting prices. The quote confirms the property. Nothing is billed from this page.</p>
+        <div className="mt-8 grid gap-12 border-t border-brand-navy/10 pt-8 lg:grid-cols-2">
+          <article>
+            <h3 className="text-2xl font-semibold text-brand-navy">As you need it</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Book a visit when the lawn, the snow, or the pile needs it.</p>
+            <ul className="mt-6 flex flex-col gap-3 text-sm">
+              {priced.map((service) => (
+                <li key={service.slug} className="flex items-center justify-between gap-4 border-b border-brand-navy/10 pb-3">
+                  <span className="font-medium text-brand-navy">{service.name}</span>
+                  <span className="text-brand-navy">
+                    From {formatCurrency(service.slug === "snow-removal" ? snowFrom : service.startingPrice)}
+                    {service.slug === "snow-removal" ? " / season" : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-brand-navy">First lawn cut is $49 <span className="text-muted-foreground">(regular $85)</span>.</p>
+            <Link to="/contact" className={`${quoteClass} mt-8`}>
+              Get a quote <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </article>
+
+          <article>
+            <h3 className="text-2xl font-semibold text-brand-navy">One crew, every season</h3>
+            <p className="mt-2 text-sm text-brand-navy/80">Lawn, snow, and junk with the same people. Save 20% and get first pick of the schedule.</p>
+            <ul className="mt-6 flex flex-col gap-3 text-sm text-brand-navy">
+              <li>20% off year-round</li>
+              <li>First pick of the schedule</li>
+              <li>Cancel anytime. No long-term contract</li>
+            </ul>
+            <Link to="/contact" className={`${quoteClass} mt-8`}>
+              Get a quote <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </article>
         </div>
       </section>
 
