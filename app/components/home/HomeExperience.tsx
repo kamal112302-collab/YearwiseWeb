@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { defaultFaqs, googleReviewsUrl, reviews } from "~/lib/content.data";
-import { comparisons, mediaUrl, photos } from "~/lib/media";
+import { comparisons, heroVideo, mediaUrl, photos, videoUrl } from "~/lib/media";
 import { BeforeAfter } from "~/components/storefront/BeforeAfter";
 import { ExpandingCards } from "~/components/ui/expanding-cards";
 import { SeasonPackageCard } from "~/components/ui/season-package-card";
@@ -57,13 +57,12 @@ export function HomeExperience({
             muted
             loop
             playsInline
-            preload="auto"
-            poster={mediaUrl(photos.lawnStriped.id, 1600)}
+            preload="metadata"
+            poster={mediaUrl(heroVideo.poster, 1600)}
             className="absolute inset-0 h-full w-full object-cover object-center"
             data-hero-photo
           >
-            <source src="/Website%20Banner%20(landscape)%20(4).mp4" type="video/mp4" />
-            <source src="/videos/hero.mp4" type="video/mp4" />
+            <source src={videoUrl(heroVideo.id, 1600)} type="video/mp4" />
           </video>
         </div>
 

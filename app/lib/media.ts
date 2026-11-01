@@ -9,6 +9,16 @@ export function mediaUrl(id: string, width = 1600) {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/f_auto,q_auto,w_${width}/${id}`;
 }
 
+/** Cloudinary video delivery URL. Pass a public ID like yearwise/web/hero-banner. */
+export function videoUrl(id: string, width = 1600) {
+  return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto:eco,w_${width}/${id}.mp4`;
+}
+
+export const heroVideo = {
+  id: "yearwise/web/hero-banner",
+  poster: "yearwise/web/lawn-striped",
+} as const;
+
 /** Normalize a stored Cloudinary public ID or delivery URL into a public ID. */
 export function asPublicId(value: string | null | undefined): string | null {
   if (!value) return null;
