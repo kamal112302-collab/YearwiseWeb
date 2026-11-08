@@ -3,7 +3,7 @@ import type { SnowPricing } from "./content.types";
 
 export var defaultSettings = {
   phone: "(807) 358-2540",
-  email: "hello@yearwiseservices.com",
+  email: "info@yearwiseservices.com",
   promoBanner: "NEW CUSTOMER SPECIAL: First lawn cut just $49 (reg. $85) · NOW BOOKING SUMMER 2026 · Year-round bundles save 10%",
   businessHours: "Mon–Sun, 7am–7pm (seasonal)",
   address: "Thunder Bay, ON",
