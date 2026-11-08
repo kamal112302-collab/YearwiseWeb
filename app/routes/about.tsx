@@ -3,11 +3,12 @@ import { buildMeta } from "../lib/seo";
 import { LinkButton } from "../components/ui/Button";
 import { mediaUrl, photos } from "../lib/media";
 import { areasSentence } from "../lib/service-pages";
-import { serviceAreas } from "../lib/content.data";
+import { discountLabel, serviceAreas } from "../lib/content.data";
+import type { SiteSettings } from "../lib/content.types";
 
 async function loader() {
   return {
-    settings: await getSiteSettings()
+    settings: await getSiteSettings(),
   };
 }
 
@@ -16,12 +17,13 @@ function meta() {
     title: "About Yearwise Services — Thunder Bay Property Care",
     description: "Yearwise Services is one insured crew for lawn care, snow removal, and junk hauling across Thunder Bay — built so homeowners stop juggling contractors.",
     path: "/about",
-    image: mediaUrl(photos.lawnGolden.id, 1200)
+    image: mediaUrl(photos.lawnGolden.id, 1200),
   });
 }
 
-function About({ loaderData }: { loaderData: { settings: { phone: string } } }) {
+function About({ loaderData }: { loaderData: { settings: SiteSettings } }) {
   const { settings } = loaderData;
+  const discount = discountLabel(settings.yearRoundDiscountPercent);
   const neighbourhoods = serviceAreas.filter((area) => area !== "Thunder Bay");
   return (
     <div className="section-pad">
@@ -32,7 +34,7 @@ function About({ loaderData }: { loaderData: { settings: { phone: string } } }) 
             <p>Yearwise Services is one insured crew for lawn care, snow removal, and junk hauling in Thunder Bay. The same phone number works in July and in January.</p>
             <p>Yearwise Services exists because Thunder Bay homeowners were tired of the same cycle: a lawn guy who disappears in October, a plow operator who's impossible to reach at 6 a.m., and no one reliable when junk needs to go.</p>
             <p>We keep your property handled from the first thaw to the last snowfall — mowing, clearing, hauling — with the same insured crew and the same phone number: <strong className="text-brand-ink">{settings.phone}</strong>.</p>
-            <p>No long-term contracts required. Year-round customers get priority scheduling and save 20% on bundled services. If you're not happy, we come back and make it right — free.</p>
+            <p>No long-term contracts required. Year-round customers get priority scheduling and save {discount} on bundled services. If you're not happy, we come back and make it right — free.</p>
           </div>
           <LinkButton href="/contact" className="mt-8">Get a free quote</LinkButton>
         </div>

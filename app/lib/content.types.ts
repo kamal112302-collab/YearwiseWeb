@@ -26,6 +26,7 @@ export type SiteSettings = {
   promoBanner: string;
   businessHours: string;
   address: string;
+  yearRoundDiscountPercent: number;
 };
 
 export type SnowPricingTier = {

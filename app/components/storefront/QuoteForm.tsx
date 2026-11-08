@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { Form, useNavigation } from "react-router";
+import { Form, Link, useNavigation } from "react-router";
 import { Button } from "../ui/Button";
 import { Input, Select, Textarea } from "../ui/Input";
 import type { ServiceRecord, SnowPricing } from "../../lib/content.types";
@@ -244,6 +244,18 @@ export function QuoteForm({ services, snowPricing, turnstileSiteKey, result, def
           <div ref={widgetRef} />
         </div>
       ) : null}
+
+      <p className="text-sm leading-relaxed text-brand-navy/70">
+        By sending this request, you agree we may contact you about your quote. See our{" "}
+        <Link to="/policies/privacy" className="cursor-pointer font-semibold text-brand-green-deep hover:underline">
+          Privacy Policy
+        </Link>{" "}
+        and{" "}
+        <Link to="/policies/terms" className="cursor-pointer font-semibold text-brand-green-deep hover:underline">
+          Terms of Service
+        </Link>
+        .
+      </p>
 
       <Button type="submit" disabled={sending || (captchaRequired && !turnstileToken)}>
         {sending ? "Sending…" : "Send request"}

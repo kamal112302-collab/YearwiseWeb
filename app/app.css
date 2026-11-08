@@ -21,7 +21,7 @@
 body { @apply bg-white text-foreground font-sans antialiased overflow-x-clip; }
 h1, h2, h3 { @apply font-display tracking-tight; }
 .skip-link { @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-brand-navy focus:text-white focus:px-4 focus:py-2 focus:rounded-xl; }
-.section-pad { @apply mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24; }
+.section-pad { @apply mx-auto w-full max-w-7xl px-4 pt-4 pb-16 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8 lg:pb-24; }
 .prose-yearwise { @apply text-lg leading-[1.7] text-brand-ink/80; }
 .prose-yearwise p { @apply mb-5; }
 .prose-yearwise h2 { @apply mb-3 mt-10 text-2xl font-semibold text-brand-navy; }

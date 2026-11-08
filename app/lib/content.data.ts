@@ -4,10 +4,22 @@ import type { SnowPricing } from "./content.types";
 export var defaultSettings = {
   phone: "(807) 358-2540",
   email: "hello@yearwiseservices.com",
-  promoBanner: "NEW CUSTOMER SPECIAL: First lawn cut just $49 (reg. $85) · NOW BOOKING SUMMER 2026 · Year-round bundles save 20%",
+  promoBanner: "NEW CUSTOMER SPECIAL: First lawn cut just $49 (reg. $85) · NOW BOOKING SUMMER 2026 · Year-round bundles save 10%",
   businessHours: "Mon–Sun, 7am–7pm (seasonal)",
-  address: "Thunder Bay, ON"
+  address: "Thunder Bay, ON",
+  yearRoundDiscountPercent: 10,
 };
+
+export function parseDiscountPercent(value: unknown): number {
+  const raw = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(raw)) return defaultSettings.yearRoundDiscountPercent;
+  return Math.min(100, Math.max(0, Math.round(raw)));
+}
+
+/** Safe for client and server — formats e.g. 10 → "10%". */
+export function discountLabel(percent: number): string {
+  return `${parseDiscountPercent(percent)}%`;
+}
 export var defaultServices = [{
   id: "seed-lawn",
   slug: "lawn-care",
@@ -72,12 +84,12 @@ export const defaultSnowPricing: SnowPricing = {
 export var defaultFaqs = [{
   id: "faq-1",
   question: "What areas in Thunder Bay do you serve?",
-  answer: "We serve all of Thunder Bay and surrounding communities including Northwood, Current River, Westfort, Intercity, McIntyre, Neebing, Kakabeka Falls, and Murillo. Not sure if you're in our service area? Give us a call — we'll let you know right away.",
+  answer: "We serve all of Thunder Bay and surrounding communities including Northwood, Current River, Westfort, Intercity, McIntyre, Neebing, Kakabeka Falls, Murillo, and Shuniah. Not sure if you're in our service area? Give us a call — we'll let you know right away.",
   sortOrder: 0
 }, {
   id: "faq-2",
   question: "Do I have to sign a long-term contract?",
-  answer: "No. You can cancel anytime. We earn your business every visit, not with fine print. That said, our year-round customers get priority scheduling and save 20%, so most people stick around.",
+  answer: "No. You can cancel anytime. We earn your business every visit, not with fine print. That said, our year-round customers get priority scheduling and save 10%, so most people stick around.",
   sortOrder: 1
 }, {
   id: "faq-3",
@@ -100,7 +112,7 @@ export var defaultFaqs = [{
   answer: "The first lawn cut for a new customer is $49. The regular visit price is $85. After that, lawn care starts at $49 per visit, and the quote confirms the property.",
   sortOrder: 5
 }];
-export var serviceAreas = ["Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Thunder Bay"];
+export var serviceAreas = ["Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Shuniah", "Thunder Bay"];
 
 export type Review = {
   name: string;

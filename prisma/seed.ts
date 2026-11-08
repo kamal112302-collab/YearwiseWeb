@@ -48,16 +48,17 @@ async function main() {
     });
   }
 
+  const { privacyPolicyHtml, termsOfServiceHtml } = await import("../app/lib/policy-content");
   const policies = [
     {
       slug: "privacy",
       title: "Privacy Policy",
-      content: "<p>Yearwise Services collects contact information you submit through our quote form to respond to service requests. We do not sell your data. Call (807) 358-2540 with privacy questions.</p>",
+      content: privacyPolicyHtml,
     },
     {
       slug: "terms",
       title: "Terms of Service",
-      content: "<p>Services are provided according to quoted scope and schedule. Pricing is per visit unless a written bundle agreement specifies otherwise. Cancel anytime — no long-term contract required.</p>",
+      content: termsOfServiceHtml,
     },
   ];
   for (const policy of policies) {

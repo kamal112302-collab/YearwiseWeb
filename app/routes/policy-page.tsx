@@ -1,16 +1,17 @@
 import { tryDb } from "../db.server";
 import { data } from "react-router";
 import { buildMeta } from "../lib/seo";
+import { privacyPolicyHtml, termsOfServiceHtml } from "../lib/policy-content";
 
-var fallbackPolicies = {
+const fallbackPolicies: Record<string, { title: string; content: string }> = {
   privacy: {
     title: "Privacy Policy",
-    content: "<p>Yearwise Services collects contact information you submit through our quote form to respond to service requests. We do not sell your data. Call (807) 358-2540 with privacy questions.</p>"
+    content: privacyPolicyHtml,
   },
   terms: {
     title: "Terms of Service",
-    content: "<p>Services are provided according to quoted scope and schedule. Pricing is per visit unless a written bundle agreement specifies otherwise. Cancel anytime — no long-term contract required.</p>"
-  }
+    content: termsOfServiceHtml,
+  },
 };
 async function loader$15({
   params

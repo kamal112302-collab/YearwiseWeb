@@ -15,7 +15,8 @@ function StorefrontLayout({
   loaderData
 }: Route.ComponentProps) {
   const pending = useNavigation().state !== "idle";
-  const isHome = useLocation().pathname === "/";
+  const path = useLocation().pathname;
+  const flushHero = path === "/" || path === "/services" || path.startsWith("/services/");
   const {
     settings
   } = loaderData;
@@ -23,7 +24,7 @@ function StorefrontLayout({
     <div className="flex min-h-dvh flex-col bg-white">
       <NavigationProgress />
       <SiteHeader phone={settings.phone} />
-      <main id="main-content" className={cn("flex-1 transition-opacity duration-200", !isHome && "pt-24 sm:pt-28", pending && "opacity-80")}>
+      <main id="main-content" className={cn("flex-1 transition-opacity duration-200", !flushHero && "pt-[4.75rem] sm:pt-20", pending && "opacity-80")}>
         <Outlet />
       </main>
       <SiteFooter phone={settings.phone} email={settings.email} />
