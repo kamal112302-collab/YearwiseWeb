@@ -38,7 +38,7 @@ export async function sendInquiryNotificationEmail({
     return;
   }
   await client.emails.send({
-    from: "Yearwise Services <onboarding@resend.dev>",
+    from: process.env.CONTACT_FROM_EMAIL ?? "Yearwise Services <info@yearwiseservices.com>",
     to,
     replyTo: email,
     subject: `New quote request from ${name}${service ? ` — ${service}` : ""}`,

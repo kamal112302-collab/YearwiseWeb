@@ -34,7 +34,7 @@ export const privacyPolicyHtml = `
 <p>You can request access to, correction of, or deletion of the personal information we hold about you, subject to legal or operational limits. Contact us at the phone or email below.</p>
 
 <h2>Contact</h2>
-<p>Privacy questions: call <a href="tel:8073582540">(807) 358-2540</a> or email <a href="mailto:hello@yearwiseservices.com">hello@yearwiseservices.com</a>.</p>
+<p>Privacy questions: call <a href="tel:8073582540">(807) 358-2540</a> or email <a href="mailto:info@yearwiseservices.com">info@yearwiseservices.com</a>.</p>
 <p>Last updated: November 2026.</p>
 `.trim();
 
@@ -60,6 +60,6 @@ export const termsOfServiceHtml = `
 <p>Yearwise carries insurance for the work we perform. We are not responsible for pre-existing property conditions or for work outside the quoted scope. Ontario law applies.</p>
 
 <h2>Contact</h2>
-<p>Questions about these terms: call <a href="tel:8073582540">(807) 358-2540</a> or email <a href="mailto:hello@yearwiseservices.com">hello@yearwiseservices.com</a>.</p>
+<p>Questions about these terms: call <a href="tel:8073582540">(807) 358-2540</a> or email <a href="mailto:info@yearwiseservices.com">info@yearwiseservices.com</a>.</p>
 <p>Last updated: November 2026.</p>
 `.trim();
