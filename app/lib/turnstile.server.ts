@@ -6,14 +6,27 @@ export function getTurnstileSiteKey() {
   return process.env.TURNSTILE_SITE_KEY ?? "";
 }
 
+function isProductionHost() {
+  const url = process.env.APP_URL ?? "";
+  return Boolean(url) && !/localhost|127\.0\.0\.1/i.test(url);
+}
+
 /**
  * Verifies a Cloudflare Turnstile token.
- * When TURNSTILE_SECRET_KEY is unset (local/dev), verification is skipped so
- * development is not blocked — same pattern as Resend/Cloudinary in this repo.
+ * Local/dev without keys skips verification. Production without keys rejects
+ * submissions so the form cannot silently accept bot traffic.
  */
 export async function verifyTurnstile(token: string, remoteIp?: string | null) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return { ok: true as const, skipped: true as const };
+  if (!secret) {
+    if (isProductionHost()) {
+      return {
+        ok: false as const,
+        error: "Form protection is not configured. Please call us for a quote instead.",
+      };
+    }
+    return { ok: true as const, skipped: true as const };
+  }
 
   if (!token.trim()) {
     return { ok: false as const, error: "Please complete the captcha and try again." };

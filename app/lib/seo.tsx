@@ -88,7 +88,7 @@ export function localBusinessJsonLd(settings) {
       addressRegion: "ON",
       addressCountry: "CA"
     },
-    areaServed: ["Thunder Bay", "Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo"],
+    areaServed: ["Thunder Bay", "Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Shuniah"],
     priceRange: "$$",
     openingHours: "Mo-Su 07:00-19:00"
   };

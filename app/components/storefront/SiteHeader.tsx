@@ -16,7 +16,9 @@ export function SiteHeader({ phone }: { phone: string }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const tel = phone.replace(/[^\d+]/g, "");
-  const overlay = useLocation().pathname === "/" && !scrolled;
+  const path = useLocation().pathname;
+  const flushHero = path === "/" || path === "/services" || path.startsWith("/services/");
+  const overlay = flushHero && !scrolled;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,7 +27,7 @@ export function SiteHeader({ phone }: { phone: string }) {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [path]);
 
   return (
     <header

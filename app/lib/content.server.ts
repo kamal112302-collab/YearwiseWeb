@@ -1,5 +1,11 @@
 import { tryDb } from "../db.server";
-import { defaultSettings, defaultServices, defaultFaqs, defaultSnowPricing } from "./content.data";
+import {
+  defaultSettings,
+  defaultServices,
+  defaultFaqs,
+  defaultSnowPricing,
+  parseDiscountPercent,
+} from "./content.data";
 import { asPublicId, comparisons, serviceMedia, servicePhoto } from "./media";
 import type { ServicePhotoRecord, ServiceRecord, SnowPricing } from "./content.types";
 
@@ -38,7 +44,7 @@ export async function getSiteSettings() {
     const rows = await client.siteSetting.findMany({
       where: {
         key: {
-          in: ["phone", "email", "promoBanner", "businessHours", "address"],
+          in: ["phone", "email", "promoBanner", "businessHours", "address", "yearRoundDiscountPercent"],
         },
       },
     });
@@ -49,6 +55,9 @@ export async function getSiteSettings() {
       promoBanner: String(map.promoBanner ?? defaultSettings.promoBanner),
       businessHours: String(map.businessHours ?? defaultSettings.businessHours),
       address: String(map.address ?? defaultSettings.address),
+      yearRoundDiscountPercent: parseDiscountPercent(
+        map.yearRoundDiscountPercent ?? defaultSettings.yearRoundDiscountPercent,
+      ),
     };
   } catch {
     return defaultSettings;

@@ -33,13 +33,16 @@ export function HomeExperience({
   services,
   areas,
   snowPricing,
+  yearRoundDiscountPercent,
 }: {
   phone: string;
   services: ServiceRecord[];
   areas: string[];
   snowPricing: SnowPricing;
+  yearRoundDiscountPercent: number;
 }) {
   const tel = phone.replace(/[^\d+]/g, "");
+  const discount = `${yearRoundDiscountPercent}%`;
   const rootRef = useHomeMotion();
   const bySlug = (slug: string) => services.find((service) => service.slug === slug);
   const lawn = bySlug("lawn-care");
@@ -387,7 +390,6 @@ export function HomeExperience({
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-sm text-brand-navy">First lawn cut is $49 <span className="text-muted-foreground">(regular $85)</span>.</p>
             <Link to="/contact" className={`${quoteClass} mt-8`}>
               Get a quote <ArrowRight className="size-4" aria-hidden />
             </Link>
@@ -395,9 +397,9 @@ export function HomeExperience({
 
           <article>
             <h3 className="text-2xl font-semibold text-brand-navy">One crew, every season</h3>
-            <p className="mt-2 text-sm text-brand-navy/80">Lawn, snow, and junk with the same people. Save 20% and get first pick of the schedule.</p>
+            <p className="mt-2 text-sm text-brand-navy/80">Lawn, snow, and junk with the same people. Save {discount} and get first pick of the schedule.</p>
             <ul className="mt-6 flex flex-col gap-3 text-sm text-brand-navy">
-              <li>20% off year-round</li>
+              <li>{discount} off year-round</li>
               <li>First pick of the schedule</li>
               <li>Cancel anytime. No long-term contract</li>
             </ul>

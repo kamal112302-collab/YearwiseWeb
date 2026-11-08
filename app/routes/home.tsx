@@ -36,7 +36,18 @@ function Home({
     services,
     snowPricing
   } = loaderData;
-  return <Fragment> <JsonLd data={localBusinessJsonLd(settings)} /> <HomeExperience phone={settings.phone} services={services} areas={serviceAreas} snowPricing={snowPricing} /></Fragment>;
+  return (
+    <Fragment>
+      <JsonLd data={localBusinessJsonLd(settings)} />
+      <HomeExperience
+        phone={settings.phone}
+        services={services}
+        areas={serviceAreas}
+        snowPricing={snowPricing}
+        yearRoundDiscountPercent={settings.yearRoundDiscountPercent}
+      />
+    </Fragment>
+  );
 }
 
 export default Home;

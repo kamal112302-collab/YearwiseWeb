@@ -29,12 +29,12 @@ export const servicePageCopy: Record<string, ServicePageCopy> = {
       "A visit you did not book",
     ],
     pricing: "The starting price is $49 per visit. A new customer's first lawn cut is $49 (regular $85). The quote confirms the property before anything is billed.",
-    booking: "Most new customers get a first visit within 3–5 days. Year-round customers save 20% and get priority scheduling. You can cancel anytime.",
+    booking: "Most new customers get a first visit within 3–5 days. Year-round customers save {discount} and get priority scheduling. You can cancel anytime.",
     steps: [
       { title: "You call, or you send the form", body: "Marcus or Lisa take the quote. It names the property before anything is billed. Most quotes take a few minutes." },
       { title: "The first cut is $49", body: "That first cut for a new customer is $49. The regular price is $85. After that, lawn visits start at $49." },
       { title: "We mow and edge", body: "The visit is mowing, edging, and the seasonal treatments named in the quote. The season runs from the first thaw through fall cleanup." },
-      { title: "We come back if you want us", body: "Most new jobs start within 3–5 days. Year-round customers save 20% and get first pick of the schedule. You can cancel anytime." },
+      { title: "We come back if you want us", body: "Most new jobs start within 3–5 days. Year-round customers save {discount} and get first pick of the schedule. You can cancel anytime." },
     ],
     faqs: [
       {
@@ -43,7 +43,7 @@ export const servicePageCopy: Record<string, ServicePageCopy> = {
       },
       {
         question: "Do I have to sign a long-term contract?",
-        answer: "No. You can cancel anytime. Year-round customers get priority scheduling and save 20%.",
+        answer: "No. You can cancel anytime. Year-round customers get priority scheduling and save {discount}.",
       },
     ],
   },
@@ -122,4 +122,20 @@ export const servicePageCopy: Record<string, ServicePageCopy> = {
 export function areasSentence() {
   const names = serviceAreas.filter((area) => area !== "Thunder Bay");
   return `We serve Thunder Bay, including ${names.slice(0, -1).join(", ")}, and ${names.at(-1)}.`;
+}
+
+/** Replace `{discount}` placeholders with a label like `10%`. */
+export function withDiscountCopy<T>(value: T, discount: string): T {
+  if (typeof value === "string") {
+    return value.replaceAll("{discount}", discount) as T;
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => withDiscountCopy(item, discount)) as T;
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, withDiscountCopy(entry, discount)]),
+    ) as T;
+  }
+  return value;
 }
