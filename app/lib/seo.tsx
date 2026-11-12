@@ -1,7 +1,24 @@
 
+const PRODUCTION_APP_URL = "https://www.yearwiseservices.com";
+
+function normalizeAppUrl(url: string) {
+  return url.replace(/\/$/, "");
+}
+
+function isLocalhostUrl(url: string) {
+  return /localhost|127\.0\.0\.1/i.test(url);
+}
 
 export function getAppUrl() {
-  if (typeof process !== "undefined" && process.env.APP_URL) return process.env.APP_URL;
+  const configured = typeof process !== "undefined" ? process.env.APP_URL?.trim() : undefined;
+  const onVercel = typeof process !== "undefined" && Boolean(process.env.VERCEL);
+  const isProd = typeof process !== "undefined" && process.env.NODE_ENV === "production";
+
+  // Never emit localhost URLs in production (breaks Search Console sitemaps).
+  if (configured && !(isLocalhostUrl(configured) && (onVercel || isProd))) {
+    return normalizeAppUrl(configured);
+  }
+  if (onVercel || isProd) return PRODUCTION_APP_URL;
   if (typeof window !== "undefined" && window.location?.origin) return window.location.origin;
   return "http://localhost:5173";
 }
