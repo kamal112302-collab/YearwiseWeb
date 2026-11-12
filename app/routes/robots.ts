@@ -1,5 +1,4 @@
-
-var APP_URL = process.env.APP_URL ?? "http://localhost:5173";
+import { getAppUrl } from "../lib/seo";
 
 const privatePaths = `Disallow: /admin
 Disallow: /admin/
@@ -21,7 +20,7 @@ User-agent: PerplexityBot
 Allow: /
 ${privatePaths}
 
-Sitemap: ${APP_URL}/sitemap.xml
+Sitemap: ${getAppUrl()}/sitemap.xml
 `;
   return new Response(body, {
     headers: {

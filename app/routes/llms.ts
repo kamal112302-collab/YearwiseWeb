@@ -1,9 +1,9 @@
 import { getSiteSettings } from "../lib/content.server";
 import { discountLabel } from "../lib/content.data";
-
-var APP_URL = process.env.APP_URL ?? "https://yearwiseservices.com";
+import { getAppUrl } from "../lib/seo";
 
 async function loader() {
+  const APP_URL = getAppUrl();
   const settings = await getSiteSettings();
   const discount = discountLabel(settings.yearRoundDiscountPercent);
   const body = `# Yearwise Services
