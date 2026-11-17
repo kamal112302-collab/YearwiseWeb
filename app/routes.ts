@@ -27,6 +27,7 @@ export default [
     route("admin/services/:id", "routes/admin-service-view.tsx"),
     route("admin/faqs", "routes/admin-faqs.tsx"),
     route("admin/snow-pricing", "routes/admin-snow-pricing.tsx"),
+    route("admin/lawn-pricing", "routes/admin-lawn-pricing.tsx"),
     route("admin/inquiries", "routes/admin-inquiries.tsx"),
     route("admin/blog", "routes/admin-blog-index.tsx"),
     route("admin/blog/new", "routes/admin-blog-new.tsx"),

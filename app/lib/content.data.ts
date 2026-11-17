@@ -1,10 +1,10 @@
 import { photos, servicePhoto } from "./media";
-import type { SnowPricing } from "./content.types";
+import type { LawnPricing, SnowPricing } from "./content.types";
 
 export var defaultSettings = {
   phone: "(807) 358-2540",
   email: "info@yearwiseservices.com",
-  promoBanner: "NEW CUSTOMER SPECIAL: First lawn cut just $49 (reg. $85) · NOW BOOKING SUMMER 2026 · Year-round bundles save 10%",
+  promoBanner: "LAWN PLANS FROM $140/MO · One-time cuts from $50+ · NOW BOOKING SUMMER 2026 · Year-round bundles save 10%",
   businessHours: "Mon–Sun, 7am–7pm (seasonal)",
   address: "Thunder Bay, ON",
   yearRoundDiscountPercent: 10,
@@ -24,14 +24,14 @@ export var defaultServices = [{
   id: "seed-lawn",
   slug: "lawn-care",
   name: "Lawn Care",
-  shortDescription: "A thick, green, neighbour-jealous lawn without you lifting a finger.",
-  description: "Weekly cuts to seasonal treatments. We keep your lawn sharp from the first thaw through fall cleanup — mowing, edging, and treatments handled by one insured crew you already trust for snow and junk.",
-  startingPrice: 49,
+  shortDescription: "Weekly or bi-weekly mowing, turf programs, and seasonal cleanups — one insured Thunder Bay crew.",
+  description: "Mowing plans from $140/month (based on 2,500 sq. ft.), one-time cuts from $50+, and turf care programs with aeration, fertilization, and overseeding. Spring and fall cleanups and yard extras quoted per property.",
+  startingPrice: 50,
   heroImage: servicePhoto("lawn-care", "hero").id,
   cardImage: servicePhoto("lawn-care", "card").id,
   sortOrder: 0,
   seoTitle: "Lawn Care Thunder Bay | Yearwise Services",
-  seoDescription: "Professional lawn care in Thunder Bay starting at $49 per visit. Weekly mowing, edging, and seasonal treatments from one year-round crew."
+  seoDescription: "Lawn care in Thunder Bay: weekly or bi-weekly mowing from $140/mo, one-time cuts from $50+, and turf programs from $180. Same year-round crew."
 }, {
   id: "seed-snow",
   slug: "snow-removal",
@@ -81,6 +81,133 @@ export const defaultSnowPricing: SnowPricing = {
     image: photos.snowPlow.id,
   },
 };
+
+const mowingIncludes = [
+  "Lawn mowing",
+  "Trimming",
+  "Blower cleanup",
+  "Mulched clippings",
+];
+
+export const defaultLawnPricing: LawnPricing = {
+  plans: [
+    {
+      id: "lawn-plan-weekly",
+      label: "Weekly",
+      price: 199,
+      cadence: "weekly",
+      basisNote: "Based on 2,500 sq. ft.",
+      includes: mowingIncludes,
+      sortOrder: 0,
+    },
+    {
+      id: "lawn-plan-biweekly",
+      label: "Bi-weekly",
+      price: 140,
+      cadence: "biweekly",
+      basisNote: "Based on 2,500 sq. ft.",
+      includes: mowingIncludes,
+      sortOrder: 1,
+    },
+    {
+      id: "lawn-plan-onetime",
+      label: "One-time",
+      price: 50,
+      cadence: "onetime",
+      basisNote: "Call or text for a quote · from $50+",
+      includes: mowingIncludes,
+      sortOrder: 2,
+    },
+  ],
+  turfPrograms: [
+    {
+      id: "turf-1",
+      name: "Program 1",
+      price: 180,
+      features: ["Core aeration", "Spring fertilization", "Fall fertilization"],
+      sortOrder: 0,
+    },
+    {
+      id: "turf-2",
+      name: "Program 2",
+      price: 300,
+      features: [
+        "Core aeration",
+        "Spring fertilization",
+        "Spring overseeding",
+        "Summer fertilization",
+        "Fall fertilization",
+      ],
+      sortOrder: 1,
+    },
+    {
+      id: "turf-3",
+      name: "Program 3",
+      price: 600,
+      features: [
+        "Spring dethatching",
+        "Spring aeration",
+        "Spring fertilization",
+        "Spring overseeding",
+        "Summer fertilization",
+        "Fall aeration",
+        "Fall fertilization",
+      ],
+      sortOrder: 2,
+    },
+  ],
+  quoteServices: [
+    {
+      id: "lawn-quote-spring",
+      name: "Spring cleanup",
+      category: "cleanup",
+      description: "Raking, flower bed clean-ups, pruning, and debris removal to open the season.",
+      sortOrder: 0,
+    },
+    {
+      id: "lawn-quote-fall",
+      name: "Fall cleanup",
+      category: "cleanup",
+      description: "Leaf cleanups, raking, debris removal, and yard waste haul-away.",
+      sortOrder: 1,
+    },
+    {
+      id: "lawn-quote-hedges",
+      name: "Hedge & bush trimming",
+      category: "other",
+      description: "Shape and trim hedges and shrubs. Quote varies by property.",
+      sortOrder: 2,
+    },
+    {
+      id: "lawn-quote-gutters",
+      name: "Gutter cleanup",
+      category: "other",
+      description: "Clear gutters and downspouts. Quote per property.",
+      sortOrder: 3,
+    },
+    {
+      id: "lawn-quote-fence",
+      name: "Fence staining / painting",
+      category: "other",
+      description: "Stain or paint fences. Materials and scope quoted per job.",
+      sortOrder: 4,
+    },
+    {
+      id: "lawn-quote-lights",
+      name: "Christmas lighting",
+      category: "other",
+      description: "Install and take-down of outdoor Christmas lights. Quote on request.",
+      sortOrder: 5,
+    },
+    {
+      id: "lawn-quote-bins",
+      name: "Garbage bin cleaning",
+      category: "other",
+      description: "Wash and sanitize outdoor garbage bins. Quote on request.",
+      sortOrder: 6,
+    },
+  ],
+};
 export var defaultFaqs = [{
   id: "faq-1",
   question: "What areas in Thunder Bay do you serve?",
@@ -108,8 +235,8 @@ export var defaultFaqs = [{
   sortOrder: 4
 }, {
   id: "faq-6",
-  question: "What does the first lawn cut cost?",
-  answer: "The first lawn cut for a new customer is $49. The regular visit price is $85. After that, lawn care starts at $49 per visit, and the quote confirms the property.",
+  question: "How is lawn mowing priced?",
+  answer: "Weekly mowing is $199/month and bi-weekly is $140/month, based on 2,500 sq. ft. One-time cuts start at $50+. Larger lawns are quoted to fit. Turf care programs run from $180 to $600.",
   sortOrder: 5
 }];
 export var serviceAreas = ["Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Shuniah", "Thunder Bay"];

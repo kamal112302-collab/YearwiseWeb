@@ -35,20 +35,28 @@ export function buildMeta({
   title,
   description,
   image,
-  path = "/"
+  path = "/",
+  imageAlt,
+  type = "website",
 }: {
   title: string;
   description: string;
   image?: string;
   path?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
 }) {
   const canonical = getCanonicalUrl(path);
   const imageUrl = absoluteUrl(image);
+  const ogAlt = imageAlt ?? title;
   return [{
     title
   }, {
     name: "description",
     content: description
+  }, {
+    name: "robots",
+    content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
   }, {
     property: "og:title",
     content: title
@@ -57,13 +65,22 @@ export function buildMeta({
     content: description
   }, {
     property: "og:type",
-    content: "website"
+    content: type
   }, {
     property: "og:url",
     content: canonical
   }, {
     property: "og:image",
     content: imageUrl
+  }, {
+    property: "og:image:width",
+    content: "1200"
+  }, {
+    property: "og:image:height",
+    content: "630"
+  }, {
+    property: "og:image:alt",
+    content: ogAlt
   }, {
     property: "og:site_name",
     content: "Yearwise Services"
@@ -83,6 +100,9 @@ export function buildMeta({
     name: "twitter:image",
     content: imageUrl
   }, {
+    name: "twitter:image:alt",
+    content: ogAlt
+  }, {
     tagName: "link",
     rel: "canonical",
     href: canonical
@@ -90,14 +110,16 @@ export function buildMeta({
 }
 export function localBusinessJsonLd(settings) {
   const appUrl = getAppUrl();
+  const phone = settings.phone.replace(/[^\d+]/g, "");
   return {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
     name: "Yearwise Services",
     url: appUrl,
     logo: `${appUrl}/brand/logo-mark.png`,
+    image: `${appUrl}/brand/logo-mark.png`,
     description: "One crew for every season in Thunder Bay — lawn care, snow removal, and junk hauling. Licensed and insured.",
-    telephone: settings.phone.replace(/[^\d+]/g, ""),
+    telephone: phone,
     email: settings.email,
     address: {
       "@type": "PostalAddress",
@@ -105,9 +127,35 @@ export function localBusinessJsonLd(settings) {
       addressRegion: "ON",
       addressCountry: "CA"
     },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 48.3809,
+      longitude: -89.2477
+    },
     areaServed: ["Thunder Bay", "Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Shuniah"],
     priceRange: "$$",
-    openingHours: "Mo-Su 07:00-19:00"
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "07:00",
+      closes: "19:00"
+    },
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: phone,
+      contactType: "customer service",
+      areaServed: "CA-ON",
+      availableLanguage: ["English"]
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Property services",
+      itemListElement: [
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Lawn Care", url: `${appUrl}/services/lawn-care` } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Snow Removal", url: `${appUrl}/services/snow-removal` } },
+        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Junk Removal", url: `${appUrl}/services/junk-removal` } }
+      ]
+    }
   };
 }
 export function serviceJsonLd(service) {
@@ -148,12 +196,14 @@ export function faqPageJsonLd(faqs) {
   };
 }
 export function blogPostingJsonLd(post) {
+  const appUrl = getAppUrl();
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     url: getCanonicalUrl(`/blog/${post.slug}`),
+    mainEntityOfPage: getCanonicalUrl(`/blog/${post.slug}`),
     author: post.author ? {
       "@type": "Person",
       name: post.author
@@ -161,7 +211,20 @@ export function blogPostingJsonLd(post) {
       "@type": "Organization",
       name: "Yearwise Services"
     },
+    publisher: {
+      "@type": "Organization",
+      name: "Yearwise Services",
+      logo: {
+        "@type": "ImageObject",
+        url: `${appUrl}/brand/logo-mark.png`
+      }
+    },
     datePublished: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
+    dateModified: post.updatedAt
+      ? new Date(post.updatedAt).toISOString()
+      : post.publishedAt
+        ? new Date(post.publishedAt).toISOString()
+        : undefined,
     image: post.coverImage ? absoluteUrl(post.coverImage) : undefined
   };
 }

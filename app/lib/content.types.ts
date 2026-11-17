@@ -58,3 +58,38 @@ export type SnowPricing = {
     image: string;
   };
 };
+
+export type LawnMowingCadence = "weekly" | "biweekly" | "onetime";
+export type LawnQuoteCategory = "cleanup" | "other";
+
+export type LawnMowingPlan = {
+  id: string;
+  label: string;
+  price: number;
+  cadence: LawnMowingCadence;
+  basisNote: string | null;
+  includes: string[];
+  sortOrder: number;
+};
+
+export type LawnTurfProgram = {
+  id: string;
+  name: string;
+  price: number;
+  features: string[];
+  sortOrder: number;
+};
+
+export type LawnQuoteService = {
+  id: string;
+  name: string;
+  category: LawnQuoteCategory;
+  description: string;
+  sortOrder: number;
+};
+
+export type LawnPricing = {
+  plans: LawnMowingPlan[];
+  turfPrograms: LawnTurfProgram[];
+  quoteServices: LawnQuoteService[];
+};

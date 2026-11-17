@@ -4,10 +4,11 @@ import {
   defaultServices,
   defaultFaqs,
   defaultSnowPricing,
+  defaultLawnPricing,
   parseDiscountPercent,
 } from "./content.data";
 import { asPublicId, comparisons, serviceMedia, servicePhoto } from "./media";
-import type { ServicePhotoRecord, ServiceRecord, SnowPricing } from "./content.types";
+import type { LawnPricing, ServicePhotoRecord, ServiceRecord, SnowPricing } from "./content.types";
 
 function fallbackPhotos(slug: string): ServicePhotoRecord[] {
   const media = serviceMedia[slug as keyof typeof serviceMedia];
@@ -197,6 +198,64 @@ export async function getSnowPricing(): Promise<SnowPricing> {
     };
   } catch {
     return defaultSnowPricing;
+  }
+}
+
+export async function getLawnPricing(): Promise<LawnPricing> {
+  const client = tryDb();
+  if (!client) return defaultLawnPricing;
+  try {
+    const [plans, turfPrograms, quoteServices] = await Promise.all([
+      client.lawnMowingPlan.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+      client.lawnTurfProgram.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+      client.lawnQuoteService.findMany({
+        where: { isActive: true },
+        orderBy: { sortOrder: "asc" },
+      }),
+    ]);
+
+    return {
+      plans:
+        plans.length > 0
+          ? plans.map((plan) => ({
+              id: plan.id,
+              label: plan.label,
+              price: Number(plan.price),
+              cadence: plan.cadence,
+              basisNote: plan.basisNote,
+              includes: plan.includes,
+              sortOrder: plan.sortOrder,
+            }))
+          : defaultLawnPricing.plans,
+      turfPrograms:
+        turfPrograms.length > 0
+          ? turfPrograms.map((program) => ({
+              id: program.id,
+              name: program.name,
+              price: Number(program.price),
+              features: program.features,
+              sortOrder: program.sortOrder,
+            }))
+          : defaultLawnPricing.turfPrograms,
+      quoteServices:
+        quoteServices.length > 0
+          ? quoteServices.map((service) => ({
+              id: service.id,
+              name: service.name,
+              category: service.category,
+              description: service.description,
+              sortOrder: service.sortOrder,
+            }))
+          : defaultLawnPricing.quoteServices,
+    };
+  } catch {
+    return defaultLawnPricing;
   }
 }
 

@@ -63,7 +63,7 @@ export function SeasonPackageCard({
       <div className="absolute inset-0 -z-10">
         <img
           src={imageUrl}
-          alt=""
+          alt={`${title} snow removal package`}
           width={900}
           height={600}
           className={cn(

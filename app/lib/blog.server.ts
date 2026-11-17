@@ -59,9 +59,9 @@ export var fallbackPosts = [{
   coverImage: lawnCover,
   publishedAt: new Date("2026-03-20"),
   author: "Yearwise Services",
-  bodyRichText: `<p>Thunder Bay does not thaw on a fixed day. Yearwise lawn care runs from the first thaw through fall cleanup: mowing, edging, and seasonal treatments with the same crew.</p><p>Summer 2026 booking is open. A new customer's first lawn cut is $49 (regular $85). After that, visits start at $49, and the quote confirms the property before anything is billed.</p><h2>How soon can you start</h2><p>Most new customers get a first service within 3–5 days of calling. Peak weeks fill up, so booking early is the reliable way to get on the route. Call <a href="tel:8073582540">(807) 358-2540</a> or send the quote form.</p><p>Year-round customers — lawn, snow, and junk with the same crew — save 10% and get priority scheduling. No long-term contract.</p>`,
+  bodyRichText: `<p>Thunder Bay does not thaw on a fixed day. Yearwise lawn care runs from the first thaw through fall cleanup: weekly or bi-weekly mowing, turf programs, and seasonal cleanups with the same crew.</p><p>Summer 2026 booking is open. Monthly mowing starts at $140 bi-weekly or $199 weekly (based on 2,500 sq. ft.). One-time cuts start at $50+. Turf care programs run from $180 to $600. The quote confirms the property before anything is billed.</p><h2>How soon can you start</h2><p>Most new customers get a first service within 3–5 days of calling. Peak weeks fill up, so booking early is the reliable way to get on the route. Call <a href="tel:8073582540">(807) 358-2540</a> or send the quote form.</p><p>Year-round customers — lawn, snow, and junk with the same crew — save 10% and get priority scheduling. No long-term contract.</p>`,
   seoTitle: "When Lawn Season Starts in Thunder Bay | Yearwise",
-  seoDescription: "Thunder Bay lawn care runs from the first thaw through fall cleanup. First cut $49. Summer 2026 booking is open."
+  seoDescription: "Thunder Bay lawn care from the first thaw through fall cleanup. Plans from $140/mo. Summer 2026 booking is open."
 }, {
   id: "post-snow",
   slug: "how-automatic-snow-removal-works-thunder-bay",

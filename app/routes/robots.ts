@@ -5,6 +5,7 @@ Disallow: /admin/
 Disallow: /admin/api/`;
 
 async function loader() {
+  // GPTBot blocked (training). Search-oriented AI crawlers allowed so Yearwise can be cited.
   const body = `User-agent: *
 Allow: /
 ${privatePaths}
@@ -12,11 +13,23 @@ ${privatePaths}
 User-agent: GPTBot
 Disallow: /
 
+User-agent: Google-Extended
+Allow: /
+${privatePaths}
+
 User-agent: OAI-SearchBot
 Allow: /
 ${privatePaths}
 
 User-agent: PerplexityBot
+Allow: /
+${privatePaths}
+
+User-agent: ClaudeBot
+Allow: /
+${privatePaths}
+
+User-agent: GoogleOther
 Allow: /
 ${privatePaths}
 

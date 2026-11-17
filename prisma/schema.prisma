@@ -90,6 +90,52 @@ model SnowAddOn {
   updatedAt DateTime @updatedAt
 }
 
+enum LawnMowingCadence {
+  weekly
+  biweekly
+  onetime
+}
+
+enum LawnQuoteCategory {
+  cleanup
+  other
+}
+
+model LawnMowingPlan {
+  id        String            @id @default(cuid())
+  label     String
+  price     Decimal           @db.Decimal(10, 2)
+  cadence   LawnMowingCadence
+  basisNote String?
+  includes  String[]          @default([])
+  sortOrder Int               @default(0)
+  isActive  Boolean           @default(true)
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+model LawnTurfProgram {
+  id        String   @id @default(cuid())
+  name      String
+  price     Decimal  @db.Decimal(10, 2)
+  features  String[] @default([])
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LawnQuoteService {
+  id          String            @id @default(cuid())
+  name        String
+  category    LawnQuoteCategory
+  description String            @db.Text
+  sortOrder   Int               @default(0)
+  isActive    Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
 model Faq {
   id        String   @id @default(cuid())
   question  String

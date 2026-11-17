@@ -22,7 +22,7 @@ function meta() {
   return buildMeta({
     title: "Lawn Care, Snow Removal & Junk Hauling — Yearwise Services",
     description:
-      "Three property services, one Thunder Bay crew. Lawn care from $49 a visit, snow season packages from $549 + tax, junk hauling from $99.",
+      "Three property services, one Thunder Bay crew. Lawn plans from $140/mo, snow season packages from $549 + tax, junk hauling from $99.",
     path: "/services",
     image: mediaUrl(servicePhoto("lawn-care").id, 1200),
   });
@@ -56,7 +56,7 @@ function ServicesIndex({
       <section className="relative overflow-hidden bg-brand-navy text-white">
         <img
           src={mediaUrl(photos.lawnStriped.id, 2000)}
-          alt=""
+          alt="Thunder Bay lawn with striped mowing lines"
           width={2000}
           height={1200}
           className="absolute inset-0 h-full w-full object-cover opacity-30"
@@ -112,7 +112,8 @@ function ServicesIndex({
               const photoId = service.cardImage || service.heroImage || servicePhoto(service.slug, "card").id;
               const copy = servicePageCopy[service.slug];
               const isSnow = service.slug === "snow-removal";
-              const fromPrice = isSnow && snowFrom != null ? snowFrom : service.startingPrice;
+              const isLawn = service.slug === "lawn-care";
+              const fromPrice = isSnow && snowFrom != null ? snowFrom : isLawn ? 140 : service.startingPrice;
               return (
                 <Link
                   key={service.slug}
@@ -143,7 +144,7 @@ function ServicesIndex({
                     <span className="mt-2 flex items-center justify-between gap-3 border-t border-white/20 pt-4 transition-colors duration-200">
                       <span className="text-sm font-semibold text-brand-mint">
                         From {formatCurrency(fromPrice)}
-                        {isSnow ? " / season + tax" : " / visit"}
+                        {isSnow ? " / season + tax" : isLawn ? " / mo" : " / visit"}
                       </span>
                       <span className="inline-flex items-center gap-1 text-sm font-semibold text-white">
                         Details{" "}

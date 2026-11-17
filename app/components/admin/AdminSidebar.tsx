@@ -1,4 +1,4 @@
-import { LayoutDashboard, Shovel, FileQuestion, Inbox, Newspaper, Image, Settings, Snowflake, X, Menu, LogOut } from "lucide-react";
+import { LayoutDashboard, Shovel, FileQuestion, Inbox, Newspaper, Image, Settings, Snowflake, Sprout, X, Menu, LogOut } from "lucide-react";
 import { useState, useEffect, Fragment } from "react";
 import { cn } from "../../lib/utils";
 import { NavLink, Form } from "react-router";
@@ -12,6 +12,10 @@ export var navItems = [{
   to: "/admin/services",
   label: "Services",
   icon: Shovel
+}, {
+  to: "/admin/lawn-pricing",
+  label: "Lawn Pricing",
+  icon: Sprout
 }, {
   to: "/admin/snow-pricing",
   label: "Snow Pricing",

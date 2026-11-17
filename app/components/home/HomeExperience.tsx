@@ -128,7 +128,7 @@ export function HomeExperience({
               return (
                 <Link key={service.slug} to={`/services/${service.slug}`} data-reveal className="mission-card group h-[26rem] cursor-pointer sm:h-[32rem]">
                   {cardId ? (
-                    <img src={mediaUrl(cardId, 800)} alt="" width={800} height={1067} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
+                    <img src={mediaUrl(cardId, 800)} alt={`${service.name} in Thunder Bay`} width={800} height={1067} className="absolute inset-0 h-full w-full object-cover" loading="lazy" />
                   ) : null}
                   <span className="absolute inset-0 bg-gradient-to-t from-brand-navy/90 via-brand-navy/30 to-transparent" />
                   <span className="absolute inset-x-0 bottom-0 p-5 text-white">
@@ -147,7 +147,7 @@ export function HomeExperience({
           <>
             <img
               src={mediaUrl((snow.cardImage || snow.heroImage)!, 2000)}
-              alt=""
+              alt="Snow removal crew clearing a Thunder Bay driveway"
               width={2000}
               height={1200}
               className="absolute inset-0 h-full w-full object-cover opacity-35"
@@ -384,8 +384,11 @@ export function HomeExperience({
                 <li key={service.slug} className="flex items-center justify-between gap-4 border-b border-brand-navy/10 pb-3">
                   <span className="font-medium text-brand-navy">{service.name}</span>
                   <span className="text-brand-navy">
-                    From {formatCurrency(service.slug === "snow-removal" ? snowFrom : service.startingPrice)}
-                    {service.slug === "snow-removal" ? " / season" : ""}
+                    {service.slug === "lawn-care"
+                      ? `From ${formatCurrency(140)} / mo`
+                      : `From ${formatCurrency(service.slug === "snow-removal" ? snowFrom : service.startingPrice)}${
+                          service.slug === "snow-removal" ? " / season" : ""
+                        }`}
                   </span>
                 </li>
               ))}
