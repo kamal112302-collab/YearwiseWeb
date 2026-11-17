@@ -25,7 +25,8 @@ function meta$8({
     title: "Yearwise Services — One Crew for Every Season | Thunder Bay",
     description: "Lawn care, snow removal, and junk hauling in Thunder Bay. One company, one number, 365 days a year. Licensed and insured. Call for a free quote.",
     path: "/",
-    image: mediaUrl(photos.lawnStriped.id, 1200)
+    image: mediaUrl(photos.lawnStriped.id, 1200),
+    imageAlt: "Yearwise Services lawn care crew striping a Thunder Bay lawn",
   });
 }
 function Home({

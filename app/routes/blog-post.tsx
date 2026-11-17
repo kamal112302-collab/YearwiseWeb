@@ -24,7 +24,9 @@ function meta({ loaderData }: { loaderData?: { post: { title: string; seoTitle?:
     title: post.seoTitle ?? post.title,
     description: post.seoDescription ?? post.excerpt ?? post.title,
     path: `/blog/${post.slug}`,
-    image: post.coverImage ?? undefined
+    image: post.coverImage ?? undefined,
+    imageAlt: post.title,
+    type: "article",
   });
 }
 

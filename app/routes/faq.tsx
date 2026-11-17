@@ -10,7 +10,7 @@ const groupOrder = ["Getting started", "Snow", "Junk", "Pricing"] as const;
 function groupFor(question: string) {
   if (/snow/i.test(question)) return "Snow";
   if (/haul|junk|paint/i.test(question)) return "Junk";
-  if (/contract|cost|price|\$49|bundle/i.test(question)) return "Pricing";
+  if (/contract|cost|price|\$140|mowing|bundle/i.test(question)) return "Pricing";
   return "Getting started";
 }
 

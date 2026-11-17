@@ -66,7 +66,7 @@ function BlogIndex({ loaderData }: { loaderData: { posts: PostCard[] } }) {
                     {items.map((post) => (
                       <li key={post.id}>
                         <Link to={`/blog/${post.slug}`} className="group grid cursor-pointer grid-cols-[5.5rem_1fr] items-center gap-4 py-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green sm:grid-cols-[7rem_1fr]">
-                          {post.coverImage ? <img src={post.coverImage} alt="" width={280} height={210} className="aspect-[4/3] w-full rounded-xl object-cover" /> : <span />}
+                          {post.coverImage ? <img src={post.coverImage} alt={post.title} width={280} height={210} className="aspect-[4/3] w-full rounded-xl object-cover" /> : <span />}
                           <span>
                             <span className="block font-semibold text-brand-navy group-hover:text-brand-green-deep">{post.title}</span>
                             {post.excerpt ? <span className="mt-1 line-clamp-1 block text-sm text-muted-foreground">{post.excerpt}</span> : null}

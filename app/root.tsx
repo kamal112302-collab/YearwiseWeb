@@ -5,11 +5,17 @@ import "./app.css";
 
 var links$1 = () => [{
   rel: "icon",
-  href: "/favicon.png?v=3",
-  type: "image/png"
+  href: "/favicon.ico?v=4",
+  sizes: "any"
+}, {
+  rel: "icon",
+  href: "/favicon.png?v=4",
+  type: "image/png",
+  sizes: "512x512"
 }, {
   rel: "apple-touch-icon",
-  href: "/favicon.png?v=3"
+  href: "/favicon.png?v=4",
+  sizes: "180x180"
 }, {
   rel: "preconnect",
   href: "https://fonts.googleapis.com"

@@ -79,7 +79,7 @@ export function ExpandingCards({ items, defaultId, renderExpanded, className }: 
             <div className="absolute inset-0">
               <img
                 src={item.imageUrl}
-                alt=""
+                alt={`${item.title} in Thunder Bay`}
                 width={1200}
                 height={900}
                 className="h-full w-full object-cover"

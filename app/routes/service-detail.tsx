@@ -1,5 +1,5 @@
 import { ArrowRight, Check, X } from "lucide-react";
-import { getServiceBySlug, getServices, getSiteSettings, getSnowPricing } from "../lib/content.server";
+import { getLawnPricing, getServiceBySlug, getServices, getSiteSettings, getSnowPricing } from "../lib/content.server";
 import { data, Link } from "react-router";
 import { buildMeta, JsonLd, breadcrumbJsonLd, serviceJsonLd, faqPageJsonLd } from "../lib/seo";
 import { formatCurrency } from "../lib/utils";
@@ -7,22 +7,23 @@ import { LinkButton } from "../components/ui/Button";
 import { Breadcrumbs } from "../components/storefront/Breadcrumbs";
 import { ServiceCtaBand } from "../components/storefront/ServiceCtaBand";
 import { StickyQuoteBar } from "../components/storefront/StickyQuoteBar";
-import { mediaUrl, servicePhoto } from "../lib/media";
+import { lawnFallCleanupClip, lawnQuotePhoto, lawnSectionMedia, mediaUrl, servicePhoto, videoUrl } from "../lib/media";
 import { BeforeAfter } from "../components/storefront/BeforeAfter";
 import { areasSentence, servicePageCopy, withDiscountCopy } from "../lib/service-pages";
 import { discountLabel, serviceAreas } from "../lib/content.data";
-import type { ServiceRecord, SiteSettings, SnowPricing } from "../lib/content.types";
+import type { LawnPricing, ServiceRecord, SiteSettings, SnowPricing } from "../lib/content.types";
 
 async function loader({ params }: { params: { slug: string } }) {
   const service = await getServiceBySlug(params.slug);
   if (!service) throw data("Not Found", { status: 404 });
-  const [settings, snowPricing, allServices] = await Promise.all([
+  const [settings, snowPricing, lawnPricing, allServices] = await Promise.all([
     getSiteSettings(),
     params.slug === "snow-removal" ? getSnowPricing() : Promise.resolve(null),
+    params.slug === "lawn-care" ? getLawnPricing() : Promise.resolve(null),
     getServices(),
   ]);
   const related = allServices.filter((item) => item.slug !== service.slug);
-  return { service, settings, snowPricing, related };
+  return { service, settings, snowPricing, lawnPricing, related };
 }
 
 function meta({ loaderData }: { loaderData?: { service: ServiceRecord } }) {
@@ -34,6 +35,7 @@ function meta({ loaderData }: { loaderData?: { service: ServiceRecord } }) {
     description: service.seoDescription ?? service.shortDescription ?? service.description.slice(0, 160),
     path: `/services/${service.slug}`,
     image: imageId ? mediaUrl(imageId, 1200) : undefined,
+    imageAlt: `${service.name} in Thunder Bay`,
   });
 }
 
@@ -44,10 +46,11 @@ function ServiceDetail({
     service: ServiceRecord;
     settings: SiteSettings;
     snowPricing: SnowPricing | null;
+    lawnPricing: LawnPricing | null;
     related: ServiceRecord[];
   };
 }) {
-  const { service, settings, snowPricing, related } = loaderData;
+  const { service, settings, snowPricing, lawnPricing, related } = loaderData;
   const tel = settings.phone.replace(/[^\d+]/g, "");
   const discount = discountLabel(settings.yearRoundDiscountPercent);
   const copy = servicePageCopy[service.slug]
@@ -67,8 +70,16 @@ function ServiceDetail({
     .slice(0, 6);
   const neighbourhoods = serviceAreas.filter((area) => area !== "Thunder Bay");
   const isSnow = service.slug === "snow-removal" && snowPricing;
-  const headlinePrice = isSnow && snowPricing.tiers[0] ? snowPricing.tiers[0].price : service.startingPrice;
-  const priceUnit = isSnow ? "/ season" : "/ visit";
+  const isLawn = service.slug === "lawn-care" && lawnPricing;
+  const monthlyPlans = isLawn ? lawnPricing.plans.filter((plan) => plan.cadence !== "onetime") : [];
+  const lawnHeadline =
+    monthlyPlans.length > 0
+      ? Math.min(...monthlyPlans.map((plan) => plan.price))
+      : service.startingPrice;
+  const headlinePrice = isSnow && snowPricing.tiers[0] ? snowPricing.tiers[0].price : isLawn ? lawnHeadline : service.startingPrice;
+  const priceUnit = isSnow ? "/ season" : isLawn ? "/ mo" : "/ visit";
+  const lawnCleanups = isLawn ? lawnPricing.quoteServices.filter((item) => item.category === "cleanup") : [];
+  const lawnOther = isLawn ? lawnPricing.quoteServices.filter((item) => item.category === "other") : [];
 
   return (
     <div className="pb-24 md:pb-0">
@@ -85,7 +96,7 @@ function ServiceDetail({
           description: copy?.lead ?? service.description,
           slug: service.slug,
           price: headlinePrice,
-          priceUnit: isSnow ? "per season + tax" : "per visit",
+          priceUnit: isSnow ? "per season + tax" : isLawn ? "per month" : "per visit",
         })}
       />
       {copy ? <JsonLd data={faqPageJsonLd(copy.faqs)} /> : null}
@@ -97,7 +108,7 @@ function ServiceDetail({
         {heroId ? (
           <img
             src={mediaUrl(heroId, 2000)}
-            alt=""
+            alt={`${service.name} in Thunder Bay`}
             width={2000}
             height={1200}
             className="absolute inset-0 h-full w-full object-cover"
@@ -124,6 +135,13 @@ function ServiceDetail({
               {isSnow ? " + tax" : ""}
             </span>
           </p>
+          {isLawn ? (
+            <p className="mt-2 text-sm text-white/75">
+              One-time cuts from{" "}
+              {formatCurrency(lawnPricing.plans.find((plan) => plan.cadence === "onetime")?.price ?? 50)} · based on
+              2,500 sq. ft.
+            </p>
+          ) : null}
           <div className="mt-6 flex flex-wrap gap-3">
             <LinkButton href={`tel:${tel}`}>Call {settings.phone}</LinkButton>
             <LinkButton href="/contact" variant="outline" className="border-white text-white hover:bg-white hover:text-brand-navy">
@@ -284,6 +302,256 @@ function ServiceDetail({
             </section>
           ) : null}
 
+          {isLawn ? (
+            <>
+              <section aria-labelledby="lawn-mowing-heading" className="bg-brand-navy text-white">
+                <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+                  <div className="grid items-end gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+                    <div>
+                      <h2 id="lawn-mowing-heading" className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+                        Mowing plans
+                      </h2>
+                      <p className="mt-3 max-w-xl text-base text-white/75">
+                        Weekly or bi-weekly. Every visit includes mowing, trimming, blower cleanup, and mulched clippings.
+                      </p>
+                    </div>
+                    <figure className="overflow-hidden rounded-2xl">
+                      <img
+                        src={mediaUrl(lawnSectionMedia.mowing.id, 960)}
+                        alt={lawnSectionMedia.mowing.alt}
+                        width={960}
+                        height={720}
+                        className="aspect-[4/3] w-full object-cover"
+                        loading="lazy"
+                      />
+                    </figure>
+                  </div>
+                  <div className="mt-10 grid gap-3 sm:grid-cols-3">
+                    {lawnPricing.plans.map((plan) => {
+                      const featured = plan.cadence === "biweekly";
+                      const priceSuffix = plan.cadence === "onetime" ? "from" : "/ mo";
+                      return (
+                        <article
+                          key={plan.id}
+                          className={
+                            featured
+                              ? "flex flex-col rounded-2xl bg-brand-mint px-5 py-6 text-brand-navy transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                              : "flex flex-col rounded-2xl border border-white/15 bg-white/5 px-5 py-6 transition-colors duration-200 hover:bg-white/10 motion-reduce:transition-none"
+                          }
+                        >
+                          <p className={`text-xs font-semibold tracking-wide ${featured ? "text-brand-green-deep" : "text-white/55"}`}>
+                            {featured ? "Most popular" : plan.cadence === "onetime" ? "As needed" : "Monthly plan"}
+                          </p>
+                          <h3 className={`mt-3 text-lg font-semibold ${featured ? "text-brand-navy" : "text-white"}`}>{plan.label}</h3>
+                          <p
+                            className={`mt-6 font-display text-4xl font-extrabold tracking-tight ${featured ? "text-brand-navy" : "text-white"}`}
+                          >
+                            {plan.cadence === "onetime" ? (
+                              <>
+                                <span className="text-lg font-semibold">{priceSuffix} </span>
+                                {formatCurrency(plan.price)}
+                                <span className={`ml-1 text-sm font-medium ${featured ? "text-brand-navy/70" : "text-white/65"}`}>+</span>
+                              </>
+                            ) : (
+                              <>
+                                {formatCurrency(plan.price)}
+                                <span className={`ml-2 text-sm font-medium ${featured ? "text-brand-navy/70" : "text-white/65"}`}>
+                                  {priceSuffix}
+                                </span>
+                              </>
+                            )}
+                          </p>
+                          {plan.basisNote ? (
+                            <p className={`mt-2 text-sm ${featured ? "text-brand-navy/70" : "text-white/65"}`}>{plan.basisNote}</p>
+                          ) : null}
+                          <ul className="mt-6 flex flex-1 flex-col gap-2">
+                            {plan.includes.map((item) => (
+                              <li
+                                key={item}
+                                className={`flex items-start gap-2 text-sm ${featured ? "text-brand-navy/85" : "text-white/85"}`}
+                              >
+                                <Check className={`mt-0.5 size-4 shrink-0 ${featured ? "text-brand-green-deep" : "text-brand-mint"}`} aria-hidden />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <Link
+                            to="/contact"
+                            className={`mt-8 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                              featured
+                                ? "bg-brand-navy text-white hover:bg-brand-navy/90 focus-visible:ring-brand-navy"
+                                : "bg-brand-green text-white hover:bg-brand-green-deep focus-visible:ring-white"
+                            }`}
+                          >
+                            Request a quote <ArrowRight className="size-4" aria-hidden />
+                          </Link>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+
+              <section aria-labelledby="lawn-turf-heading" className="bg-white">
+                <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+                  <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+                    <div>
+                      <h2 id="lawn-turf-heading" className="display text-3xl sm:text-4xl">
+                        Turf care programs
+                      </h2>
+                      <p className="mt-3 max-w-xl text-base text-brand-navy/75">
+                        Aeration, fertilizer, and overseeding stacked for the season. Pick the program that matches the lawn.
+                      </p>
+                    </div>
+                    <figure className="overflow-hidden rounded-2xl">
+                      <img
+                        src={mediaUrl(lawnSectionMedia.turf.id, 1200)}
+                        alt={lawnSectionMedia.turf.alt}
+                        width={1200}
+                        height={900}
+                        className="aspect-[4/3] w-full object-cover"
+                        loading="lazy"
+                      />
+                    </figure>
+                  </div>
+                  <div className="mt-10 grid gap-4 lg:grid-cols-3">
+                    {lawnPricing.turfPrograms.map((program, index) => {
+                      const featured = index === 1 || lawnPricing.turfPrograms.length === 1;
+                      return (
+                        <article
+                          key={program.id}
+                          className={
+                            featured
+                              ? "flex flex-col rounded-2xl border-2 border-brand-green bg-brand-surface px-5 py-6 transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                              : "flex flex-col rounded-2xl border border-brand-navy/15 bg-white px-5 py-6 transition-colors duration-200 hover:border-brand-navy/30 motion-reduce:transition-none"
+                          }
+                        >
+                          {featured ? (
+                            <p className="text-xs font-semibold tracking-wide text-brand-green-deep">Popular</p>
+                          ) : (
+                            <p className="text-xs font-semibold tracking-wide text-brand-navy/50">Season program</p>
+                          )}
+                          <h3 className="mt-3 text-xl font-semibold text-brand-navy">{program.name}</h3>
+                          <p className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy">
+                            {formatCurrency(program.price)}
+                          </p>
+                          <ul className="mt-6 flex flex-1 flex-col gap-2">
+                            {program.features.map((feature) => (
+                              <li key={feature} className="flex items-start gap-2 text-sm text-brand-navy/85">
+                                <Check className="mt-0.5 size-4 shrink-0 text-brand-green-deep" aria-hidden />
+                                <span>{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <Link
+                            to="/contact"
+                            className="mt-8 inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-full bg-brand-green px-5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-green-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2"
+                          >
+                            Request a quote <ArrowRight className="size-4" aria-hidden />
+                          </Link>
+                        </article>
+                      );
+                    })}
+                  </div>
+                </div>
+              </section>
+
+              <section aria-labelledby="lawn-extras-heading" className="bg-brand-surface">
+                <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
+                  <h2 id="lawn-extras-heading" className="display text-3xl sm:text-4xl">
+                    Cleanups &amp; other services
+                  </h2>
+                  <p className="mt-3 max-w-xl text-base text-brand-navy/75">
+                    Quote varies by property. Ask for a separate quote for each service.
+                  </p>
+
+                  <div className="mt-10">
+                    <h3 className="text-lg font-semibold text-brand-navy">Spring &amp; fall cleanups</h3>
+                    <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                      {lawnCleanups.map((item) => {
+                        const shot = lawnQuotePhoto(item.name);
+                        const useFallClip = item.name === "Fall cleanup";
+                        return (
+                          <article
+                            key={item.id}
+                            className="overflow-hidden rounded-2xl bg-white transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                          >
+                            {useFallClip ? (
+                              <video
+                                className="aspect-[16/10] w-full object-cover"
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                poster={mediaUrl(lawnFallCleanupClip.poster.id, 960)}
+                                aria-label={lawnFallCleanupClip.poster.alt}
+                              >
+                                <source src={videoUrl(lawnFallCleanupClip.id, 960)} type="video/mp4" />
+                              </video>
+                            ) : shot ? (
+                              <img
+                                src={mediaUrl(shot.id, 960)}
+                                alt={shot.alt}
+                                width={960}
+                                height={720}
+                                className="aspect-[16/10] w-full object-cover"
+                                loading="lazy"
+                              />
+                            ) : null}
+                            <div className="p-5">
+                              <p className="font-semibold text-brand-navy">{item.name}</p>
+                              <p className="mt-2 text-sm leading-relaxed text-brand-navy/70">{item.description}</p>
+                              <p className="mt-3 text-xs font-semibold tracking-wide text-brand-green-deep">Quote on request</p>
+                            </div>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <div className="mt-12">
+                    <h3 className="text-lg font-semibold text-brand-navy">Yard extras</h3>
+                    <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                      {lawnOther.map((item) => {
+                        const shot = lawnQuotePhoto(item.name);
+                        return (
+                          <article
+                            key={item.id}
+                            className="overflow-hidden rounded-2xl bg-white transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
+                          >
+                            {shot ? (
+                              <img
+                                src={mediaUrl(shot.id, 800)}
+                                alt={shot.alt}
+                                width={800}
+                                height={600}
+                                className="aspect-[4/3] w-full object-cover"
+                                loading="lazy"
+                              />
+                            ) : null}
+                            <div className="p-5">
+                              <p className="font-semibold text-brand-navy">{item.name}</p>
+                              <p className="mt-2 text-sm leading-relaxed text-brand-navy/70">{item.description}</p>
+                              <p className="mt-3 text-xs font-semibold tracking-wide text-brand-green-deep">Quote on request</p>
+                            </div>
+                          </article>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <Link
+                    to="/contact"
+                    className="mt-10 inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-full bg-brand-green px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-green-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2"
+                  >
+                    Request a quote <ArrowRight className="size-4" aria-hidden />
+                  </Link>
+                </div>
+              </section>
+            </>
+          ) : null}
+
           {galleryShots.length > 0 ? (
             <section aria-labelledby="gallery-heading" className="bg-white">
               <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">
@@ -319,6 +587,7 @@ function ServiceDetail({
                   {related.map((item) => {
                     const photoId = item.cardImage || item.heroImage || servicePhoto(item.slug, "card").id;
                     const relatedIsSnow = item.slug === "snow-removal";
+                    const relatedIsLawn = item.slug === "lawn-care";
                     return (
                       <Link
                         key={item.slug}
@@ -338,8 +607,9 @@ function ServiceDetail({
                             {item.name}
                           </span>
                           <span className="mt-1 text-sm font-semibold text-brand-green-deep">
-                            From {formatCurrency(item.startingPrice)}
-                            {relatedIsSnow ? " / season + tax" : " / visit"}
+                            {relatedIsLawn
+                              ? "Plans from $140 / mo"
+                              : `From ${formatCurrency(item.startingPrice)}${relatedIsSnow ? " / season + tax" : " / visit"}`}
                           </span>
                           <span className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-brand-navy">
                             Details{" "}

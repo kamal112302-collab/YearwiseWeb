@@ -17,29 +17,34 @@ export type ServicePageCopy = {
 export const servicePageCopy: Record<string, ServicePageCopy> = {
   "lawn-care": {
     h1: "Lawn care in Thunder Bay",
-    lead: "Weekly mowing and edging from the first thaw through fall cleanup. One insured crew, starting at $49 a visit.",
-    who: "Homeowners who want the lawn handled without finding a new contractor every spring.",
+    lead: "Weekly or bi-weekly mowing, turf care programs, and seasonal cleanups. One insured crew — plans from $140/month, one-time cuts from $50+.",
+    who: "Homeowners who want a clear mowing plan and turf program without juggling different contractors.",
     included: [
-      "Mowing",
-      "Edging",
-      "Seasonal treatments from the first thaw through fall cleanup",
+      "Lawn mowing, trimming, blower cleanup, and mulched clippings",
+      "Weekly or bi-weekly monthly plans (based on 2,500 sq. ft.)",
+      "Turf programs with aeration, fertilization, and overseeding options",
+      "Spring and fall cleanups quoted per property",
     ],
     excluded: [
       "Work that was not named in the quote",
       "A visit you did not book",
     ],
-    pricing: "The starting price is $49 per visit. A new customer's first lawn cut is $49 (regular $85). The quote confirms the property before anything is billed.",
+    pricing: "Weekly mowing is $199/month and bi-weekly is $140/month, based on 2,500 sq. ft. One-time cuts start at $50+. Turf care programs are $180, $300, or $600. Larger lawns and extras are quoted separately.",
     booking: "Most new customers get a first visit within 3–5 days. Year-round customers save {discount} and get priority scheduling. You can cancel anytime.",
     steps: [
-      { title: "You call, or you send the form", body: "Marcus or Lisa take the quote. It names the property before anything is billed. Most quotes take a few minutes." },
-      { title: "The first cut is $49", body: "That first cut for a new customer is $49. The regular price is $85. After that, lawn visits start at $49." },
-      { title: "We mow and edge", body: "The visit is mowing, edging, and the seasonal treatments named in the quote. The season runs from the first thaw through fall cleanup." },
-      { title: "We come back if you want us", body: "Most new jobs start within 3–5 days. Year-round customers save {discount} and get first pick of the schedule. You can cancel anytime." },
+      { title: "You call, or you send the form", body: "We size the lawn and pick a weekly, bi-weekly, or one-time plan. The quote names the property before anything is billed." },
+      { title: "Choose mowing and turf", body: "Monthly mowing starts at $140 bi-weekly or $199 weekly (2,500 sq. ft.). Add a turf program from $180 if you want aeration and fertilizer handled too." },
+      { title: "We mow, trim, and clean up", body: "Each visit covers mowing, trimming, blower cleanup, and mulched clippings. Turf visits follow the program you booked." },
+      { title: "We come back on your cadence", body: "Weekly or bi-weekly stays on the route. Year-round customers save {discount} and get first pick of the schedule. Cancel anytime." },
     ],
     faqs: [
       {
-        question: "What does the first lawn cut cost?",
-        answer: "The first lawn cut for a new customer is $49. The regular visit price is $85. After that, lawn care starts at $49 per visit, and the quote confirms the property.",
+        question: "How is lawn mowing priced?",
+        answer: "Weekly mowing is $199/month and bi-weekly is $140/month, based on 2,500 sq. ft. One-time cuts start at $50+. Larger lawns are quoted to fit.",
+      },
+      {
+        question: "What is included in a turf care program?",
+        answer: "Programs start at $180 with core aeration plus spring and fall fertilization. Higher programs add overseeding, summer fertilizer, dethatching, and a second aeration.",
       },
       {
         question: "Do I have to sign a long-term contract?",

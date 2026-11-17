@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
-import { defaultFaqs, defaultServices, defaultSettings } from "../app/lib/content.data";
+import { defaultFaqs, defaultLawnPricing, defaultServices, defaultSettings } from "../app/lib/content.data";
 import { fallbackPosts } from "../app/lib/blog.server";
 
 const prisma = new PrismaClient();
@@ -66,6 +66,39 @@ async function main() {
       where: { slug: policy.slug },
       update: policy,
       create: policy,
+    });
+  }
+
+  if ((await prisma.lawnMowingPlan.count()) === 0) {
+    await prisma.lawnMowingPlan.createMany({
+      data: defaultLawnPricing.plans.map((plan) => ({
+        label: plan.label,
+        price: plan.price.toFixed(2),
+        cadence: plan.cadence,
+        basisNote: plan.basisNote,
+        includes: plan.includes,
+        sortOrder: plan.sortOrder,
+      })),
+    });
+  }
+  if ((await prisma.lawnTurfProgram.count()) === 0) {
+    await prisma.lawnTurfProgram.createMany({
+      data: defaultLawnPricing.turfPrograms.map((program) => ({
+        name: program.name,
+        price: program.price.toFixed(2),
+        features: program.features,
+        sortOrder: program.sortOrder,
+      })),
+    });
+  }
+  if ((await prisma.lawnQuoteService.count()) === 0) {
+    await prisma.lawnQuoteService.createMany({
+      data: defaultLawnPricing.quoteServices.map((service) => ({
+        name: service.name,
+        category: service.category,
+        description: service.description,
+        sortOrder: service.sortOrder,
+      })),
     });
   }
 }

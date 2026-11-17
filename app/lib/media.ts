@@ -56,6 +56,38 @@ export const photos = {
     "cleanup-after",
     "The same path cleared and washed, with clean pavers after Yearwise cleanup",
   ),
+  lawnFallStreet: photo(
+    "lawn-fall-street",
+    "Thunder Bay residential street in fall with leaf piles and a Yearwise crew working on the property",
+  ),
+  lawnFallCleanup: photo(
+    "lawn-fall-cleanup",
+    "Yearwise fall cleanup crew clearing leaves on a Thunder Bay residential property",
+  ),
+  lawnDeckPool: photo(
+    "lawn-deck-pool",
+    "Backyard deck and covered pool with fallen leaves before a Yearwise seasonal cleanup",
+  ),
+  lawnHedgeTrimming: photo(
+    "lawn-hedge-trimming",
+    "Crew trimming a tall green hedge beside a residential home",
+  ),
+  lawnGutterCleanup: photo(
+    "lawn-gutter-cleanup",
+    "Worker on a ladder clearing leaves from a residential gutter",
+  ),
+  lawnFenceStaining: photo(
+    "lawn-fence-staining",
+    "Gloved hand brushing cedar-brown stain onto a wooden privacy fence, unfinished boards beside freshly stained boards",
+  ),
+  lawnChristmasLighting: photo(
+    "lawn-christmas-lighting",
+    "Suburban home with warm Christmas lights on shrubs and porch at dusk",
+  ),
+  lawnBinCleaning: photo(
+    "lawn-bin-cleaning",
+    "Residential garbage and recycling bins being washed on a driveway",
+  ),
   snowNight: photo("snow-night", "A plow truck with headlights on, clearing snow at dusk with pines behind it"),
   snowAction: photo("snow-action", "A plow truck pushing a bank of snow at sunrise"),
   snowStorm: photo("snow-storm", "A snowplow driving through heavy snowfall with its warning lights on"),
@@ -69,7 +101,17 @@ export const serviceMedia = {
   "lawn-care": {
     hero: photos.lawnStriped,
     card: photos.lawnStriped,
-    gallery: [photos.lawnEdging, photos.lawnGolden, photos.lawnAeration],
+    gallery: [
+      photos.lawnEdging,
+      photos.lawnGolden,
+      photos.lawnAeration,
+      photos.lawnClose,
+      photos.lawnFallCleanup,
+      photos.lawnFallStreet,
+      photos.lawnDeckPool,
+      photos.cleanupAfter,
+      photos.cleanupBefore,
+    ],
   },
   "snow-removal": {
     hero: photos.snowNight,
@@ -97,3 +139,29 @@ export const comparisons = {
 export function serviceComparison(slug: string) {
   return comparisons[slug as keyof typeof comparisons] ?? comparisons["lawn-care"];
 }
+
+/** Supporting shots for lawn-care page sections (mowing, turf). */
+export const lawnSectionMedia = {
+  mowing: photos.lawnClose,
+  turf: photos.lawnAeration,
+} as const;
+
+const lawnQuotePhotoByName: Record<string, Photo> = {
+  "Spring cleanup": photos.lawnDeckPool,
+  "Fall cleanup": photos.lawnFallCleanup,
+  "Hedge & bush trimming": photos.lawnHedgeTrimming,
+  "Gutter cleanup": photos.lawnGutterCleanup,
+  "Fence staining / painting": photos.lawnFenceStaining,
+  "Christmas lighting": photos.lawnChristmasLighting,
+  "Garbage bin cleaning": photos.lawnBinCleaning,
+};
+
+export function lawnQuotePhoto(name: string): Photo | null {
+  return lawnQuotePhotoByName[name] ?? null;
+}
+
+/** Short clip used on the Fall cleanup card (muted autoplay). */
+export const lawnFallCleanupClip = {
+  id: "yearwise/web/lawn-fall-cleanup-clip",
+  poster: photos.lawnFallCleanup,
+} as const;

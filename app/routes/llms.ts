@@ -18,7 +18,7 @@ async function loader() {
 - Service area: Thunder Bay and Northwood, Current River, Westfort, Intercity, McIntyre, Neebing, Kakabeka Falls, Murillo, Shuniah
 
 ## Services (starting prices, CAD)
-- Lawn care: from $49 per visit — mowing, edging, and seasonal treatments from the first thaw through fall cleanup. First cut for a new customer is $49 (regular $85). ${APP_URL}/services/lawn-care
+- Lawn care: weekly mowing $199/mo, bi-weekly $140/mo (based on 2,500 sq. ft.), one-time from $50+. Turf programs $180 / $300 / $600. Spring/fall cleanups and yard extras by quote. ${APP_URL}/services/lawn-care
 - Snow removal: season packages from $549 + tax by driveway size. Automatic after 5 cm or more. Commercial snow removal and salting available. ${APP_URL}/services/snow-removal
 - Junk removal: from $99 per visit. Furniture, appliances, yard waste, construction debris, electronics, mattresses, hot tubs, sheds. Not hauled: paint, chemicals, asbestos. ${APP_URL}/services/junk-removal
 - Year-round bundle: save ${discount}, priority scheduling, cancel anytime

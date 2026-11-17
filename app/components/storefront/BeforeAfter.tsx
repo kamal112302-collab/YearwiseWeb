@@ -26,14 +26,14 @@ export function BeforeAfter({
       >
         <img
           src={mediaUrl(after.id, 1600)}
-          alt=""
+          alt={after.alt || "After"}
           width={1600}
           height={1000}
           className="absolute inset-0 h-full w-full object-cover"
         />
         <img
           src={mediaUrl(before.id, 1600)}
-          alt=""
+          alt={before.alt || "Before"}
           width={1600}
           height={1000}
           className="absolute inset-0 h-full w-full object-cover"
