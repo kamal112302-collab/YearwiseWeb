@@ -246,9 +246,56 @@ export type Review = {
   neighbourhood: string;
   service: string;
   quote: string;
+  when: string;
 };
 
-export const reviews: Review[] = [];
-export const googleReviewsUrl = "";
+export const reviews: Review[] = [
+  {
+    name: "Jay Brahmbhatt",
+    neighbourhood: "Thunder Bay",
+    service: "Lawn mowing & snow removal",
+    when: "6 days ago",
+    quote:
+      "Really great service. I have been contacting Yearwise Services for lawn moving and snow removal. They have reasonable prices and do great job.",
+  },
+  {
+    name: "Gurazambir Sandhu",
+    neighbourhood: "Thunder Bay",
+    service: "Property services",
+    when: "3 weeks ago",
+    quote:
+      "Best overall experience and most reliable services in town. Very professional staff.",
+  },
+  {
+    name: "Hassanali Mohamedali",
+    neighbourhood: "Thunder Bay",
+    service: "Lawn care",
+    when: "a month ago",
+    quote: "Very professional and does a great job. Highly recommend.",
+  },
+  {
+    name: "Dennis Austin",
+    neighbourhood: "Thunder Bay",
+    service: "Property services",
+    when: "a month ago",
+    quote:
+      "Very personable and respectful workers. I would recommend them to anyone.",
+  },
+  {
+    name: "Steve JACKO",
+    neighbourhood: "Thunder Bay",
+    service: "Property services",
+    when: "a month ago",
+    quote: "Excellent work! Highly recommended!",
+  },
+];
+
+export const googleReviewsUrl =
+  "https://www.google.com/maps/place/Yearwise+Services/@48.4020832,-89.2720586,17z/data=!4m6!3m5!1s0xae9d7b9a89482a95:0xfe3a04639f4b3dcd!8m2!3d48.4020832!4d-89.2720586!16s%2Fg%2F11zb7j7hc5";
+
+export const googleRating = {
+  ratingValue: 4.6,
+  reviewCount: 12,
+};
 
 

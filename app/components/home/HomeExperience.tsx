@@ -1,6 +1,6 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
-import { defaultFaqs, googleReviewsUrl, reviews } from "~/lib/content.data";
+import { defaultFaqs, googleRating, googleReviewsUrl, reviews } from "~/lib/content.data";
 import { comparisons, heroVideo, mediaUrl, photos, videoUrl } from "~/lib/media";
 import { BeforeAfter } from "~/components/storefront/BeforeAfter";
 import { ExpandingCards } from "~/components/ui/expanding-cards";
@@ -8,6 +8,7 @@ import { SeasonPackageCard } from "~/components/ui/season-package-card";
 import { servicePageCopy } from "~/lib/service-pages";
 import { formatCurrency } from "~/lib/utils";
 import type { ServiceRecord, SnowPricing } from "~/lib/content.types";
+import { GoogleReviews } from "./GoogleReviews";
 import { useHomeMotion } from "./useHomeMotion";
 
 const seasonCardImages = [photos.snowNight, photos.snowAction, photos.snowStorm] as const;
@@ -308,28 +309,14 @@ export function HomeExperience({
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <h2 className="display max-w-xl text-3xl sm:text-4xl">Reviews</h2>
-        {reviews.length === 0 ? (
-          <p className="mt-4 max-w-xl text-base text-brand-navy/80">
-            Google reviews are being added. Call <a href={`tel:${tel}`} className="font-semibold text-brand-green-deep hover:underline">{phone}</a> and ask about a property near you.
-          </p>
-        ) : (
-          <ul className="mt-8 flex max-w-3xl flex-col gap-8">
-            {reviews.map((review) => (
-              <li key={`${review.name}-${review.service}`}>
-                <p className="text-base text-brand-navy">{review.quote}</p>
-                <p className="mt-2 text-sm text-brand-navy/70">{review.name}, {review.neighbourhood}. {review.service}.</p>
-              </li>
-            ))}
-          </ul>
-        )}
-        {googleReviewsUrl ? (
-          <a href={googleReviewsUrl} className="mt-4 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">Google reviews</a>
-        ) : reviews.length > 0 ? (
-          <a href={`tel:${tel}`} className="mt-4 inline-flex min-h-11 cursor-pointer items-center text-sm font-semibold text-brand-green-deep hover:underline">Call {phone}</a>
-        ) : null}
-      </section>
+      <GoogleReviews
+        reviews={reviews}
+        ratingValue={googleRating.ratingValue}
+        reviewCount={googleRating.reviewCount}
+        googleReviewsUrl={googleReviewsUrl}
+        phone={phone}
+        tel={tel}
+      />
 
       <section aria-labelledby="visit-heading" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <h2 id="visit-heading" className="display max-w-xl text-3xl sm:text-4xl">

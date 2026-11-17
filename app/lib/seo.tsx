@@ -1,3 +1,4 @@
+import { googleRating } from "~/lib/content.data";
 
 const PRODUCTION_APP_URL = "https://www.yearwiseservices.com";
 
@@ -146,6 +147,13 @@ export function localBusinessJsonLd(settings) {
       contactType: "customer service",
       areaServed: "CA-ON",
       availableLanguage: ["English"]
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: String(googleRating.ratingValue),
+      reviewCount: String(googleRating.reviewCount),
+      bestRating: "5",
+      worstRating: "1"
     },
     hasOfferCatalog: {
       "@type": "OfferCatalog",
