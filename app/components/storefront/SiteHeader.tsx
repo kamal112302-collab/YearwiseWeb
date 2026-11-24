@@ -17,7 +17,7 @@ export function SiteHeader({ phone }: { phone: string }) {
   const [scrolled, setScrolled] = useState(false);
   const tel = phone.replace(/[^\d+]/g, "");
   const path = useLocation().pathname;
-  const flushHero = path === "/" || path === "/services" || path.startsWith("/services/");
+  const flushHero = path === "/" || path.startsWith("/services/");
   const overlay = flushHero && !scrolled;
 
   useEffect(() => {
