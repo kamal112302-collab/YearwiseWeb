@@ -9,6 +9,11 @@ export function mediaUrl(id: string, width = 1600) {
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/f_auto,q_auto,w_${width}/${id}`;
 }
 
+/** Responsive srcset for Cloudinary images (f_auto, q_auto). */
+export function mediaSrcSet(id: string, widths: number[] = [480, 800, 1200, 1600]) {
+  return widths.map((width) => `${mediaUrl(id, width)} ${width}w`).join(", ");
+}
+
 /** Cloudinary video delivery URL. Pass a public ID like yearwise/web/hero-banner. */
 export function videoUrl(id: string, width = 1600) {
   return `https://res.cloudinary.com/${CLOUD_NAME}/video/upload/q_auto:eco,w_${width}/${id}.mp4`;
@@ -42,6 +47,10 @@ function photo(id: string, alt: string): Photo {
   return { id: `yearwise/web/${id}`, alt };
 }
 
+function servicesPagePhoto(id: string, alt: string): Photo {
+  return { id: `services-page/${id}`, alt };
+}
+
 export const photos = {
   lawnStriped: photo("lawn-striped", "A mower leaving even stripes on a green residential lawn beside a row of arborvitae"),
   lawnEdging: photo("lawn-edging", "Overhead view of a crew member edging a lawn along a gravel border"),
@@ -60,25 +69,57 @@ export const photos = {
     "lawn-fall-street",
     "Thunder Bay residential street in fall with leaf piles and a Yearwise crew working on the property",
   ),
-  lawnFallCleanup: photo(
-    "lawn-fall-cleanup",
-    "Yearwise fall cleanup crew clearing leaves on a Thunder Bay residential property",
+  lawnFallCleanup: servicesPagePhoto(
+    "fall-cleanup",
+    "Thunder Bay residential street with autumn leaves covering lawns and driveways before fall cleanup",
   ),
-  lawnDeckPool: photo(
-    "lawn-deck-pool",
-    "Backyard deck and covered pool with fallen leaves before a Yearwise seasonal cleanup",
+  lawnDeckPool: servicesPagePhoto(
+    "spring-cleanup",
+    "Backyard with leaf-covered lawn, weathered fence, and debris before a Yearwise spring cleanup",
+  ),
+  springCleanupHover: servicesPagePhoto(
+    "spring-cleanup-hover",
+    "Backyard with debris-filled fire pit and weathered fence before a Yearwise spring cleanup",
   ),
   lawnHedgeTrimming: photo(
     "lawn-hedge-trimming",
     "Crew trimming a tall green hedge beside a residential home",
   ),
-  lawnGutterCleanup: photo(
-    "lawn-gutter-cleanup",
-    "Worker on a ladder clearing leaves from a residential gutter",
+  lawnGutterCleanup: servicesPagePhoto(
+    "gutter-cleanup",
+    "Residential metal gutter packed with dry brown leaves next to a blue metal roof",
   ),
-  lawnFenceStaining: photo(
-    "lawn-fence-staining",
-    "Gloved hand brushing cedar-brown stain onto a wooden privacy fence, unfinished boards beside freshly stained boards",
+  gutterCleanupHover: servicesPagePhoto(
+    "gutter-cleanup-hover",
+    "Clean residential gutter on a blue metal roof after Yearwise gutter cleanup",
+  ),
+  lawnFenceStaining: servicesPagePhoto(
+    "fence-stain-after",
+    "Freshly stained reddish-brown wooden picket fence after Yearwise fence staining",
+  ),
+  fenceStainBefore: servicesPagePhoto(
+    "fence-stain-before",
+    "Weathered grey wooden privacy fence in a Thunder Bay backyard before cleaning and staining",
+  ),
+  fenceStainAfter: servicesPagePhoto(
+    "fence-stain-after",
+    "Freshly stained reddish-brown wooden picket fence after Yearwise fence staining",
+  ),
+  lawnCareCard: servicesPagePhoto(
+    "lawn-care-card",
+    "Spacious residential backyard in autumn with fallen leaves on a green lawn",
+  ),
+  turfCare: servicesPagePhoto(
+    "turf-care",
+    "Well-kept residential front lawn and stone driveway after professional turf care",
+  ),
+  fenceStainDetail: servicesPagePhoto(
+    "fence-stain-detail",
+    "Freshly stained reddish-brown wooden fence, porch, and pergola gate between two homes after Yearwise staining",
+  ),
+  fenceStainDeck: servicesPagePhoto(
+    "fence-stain-deck",
+    "Freshly stained reddish-brown wooden deck with black gazebo after Yearwise staining and painting",
   ),
   lawnChristmasLighting: photo(
     "lawn-christmas-lighting",
@@ -100,7 +141,7 @@ export const photos = {
 export const serviceMedia = {
   "lawn-care": {
     hero: photos.lawnStriped,
-    card: photos.lawnStriped,
+    card: photos.lawnCareCard,
     gallery: [
       photos.lawnEdging,
       photos.lawnGolden,
@@ -143,7 +184,7 @@ export function serviceComparison(slug: string) {
 /** Supporting shots for lawn-care page sections (mowing, turf). */
 export const lawnSectionMedia = {
   mowing: photos.lawnClose,
-  turf: photos.lawnAeration,
+  turf: photos.turfCare,
 } as const;
 
 const lawnQuotePhotoByName: Record<string, Photo> = {
@@ -158,6 +199,17 @@ const lawnQuotePhotoByName: Record<string, Photo> = {
 
 export function lawnQuotePhoto(name: string): Photo | null {
   return lawnQuotePhotoByName[name] ?? null;
+}
+
+/** Before/after pair for fence staining & painting. */
+export const fenceStainComparison = {
+  before: photos.fenceStainBefore,
+  after: photos.fenceStainAfter,
+} as const;
+
+export function lawnQuoteComparison(name: string): { before: Photo; after: Photo } | null {
+  if (name === "Fence staining / painting") return fenceStainComparison;
+  return null;
 }
 
 /** Short clip used on the Fall cleanup card (muted autoplay). */

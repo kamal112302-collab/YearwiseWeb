@@ -16,7 +16,7 @@ function StorefrontLayout({
 }: Route.ComponentProps) {
   const pending = useNavigation().state !== "idle";
   const path = useLocation().pathname;
-  const flushHero = path === "/" || path === "/services" || path.startsWith("/services/");
+  const flushHero = path === "/" || path.startsWith("/services/");
   const {
     settings
   } = loaderData;

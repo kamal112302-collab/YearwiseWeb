@@ -189,7 +189,7 @@ export const defaultLawnPricing: LawnPricing = {
       id: "lawn-quote-fence",
       name: "Fence staining / painting",
       category: "other",
-      description: "Stain or paint fences. Materials and scope quoted per job.",
+      description: "Stain or paint fences, decks, and outdoor wood. Materials and scope quoted per job.",
       sortOrder: 4,
     },
     {

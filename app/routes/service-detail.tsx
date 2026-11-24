@@ -7,7 +7,15 @@ import { LinkButton } from "../components/ui/Button";
 import { Breadcrumbs } from "../components/storefront/Breadcrumbs";
 import { ServiceCtaBand } from "../components/storefront/ServiceCtaBand";
 import { StickyQuoteBar } from "../components/storefront/StickyQuoteBar";
-import { lawnFallCleanupClip, lawnQuotePhoto, lawnSectionMedia, mediaUrl, servicePhoto, videoUrl } from "../lib/media";
+import {
+  fenceStainComparison,
+  lawnFallCleanupClip,
+  lawnQuotePhoto,
+  lawnSectionMedia,
+  mediaUrl,
+  servicePhoto,
+  videoUrl,
+} from "../lib/media";
 import { BeforeAfter } from "../components/storefront/BeforeAfter";
 import { areasSentence, servicePageCopy, withDiscountCopy } from "../lib/service-pages";
 import { discountLabel, serviceAreas } from "../lib/content.data";
@@ -79,7 +87,14 @@ function ServiceDetail({
   const headlinePrice = isSnow && snowPricing.tiers[0] ? snowPricing.tiers[0].price : isLawn ? lawnHeadline : service.startingPrice;
   const priceUnit = isSnow ? "/ season" : isLawn ? "/ mo" : "/ visit";
   const lawnCleanups = isLawn ? lawnPricing.quoteServices.filter((item) => item.category === "cleanup") : [];
-  const lawnOther = isLawn ? lawnPricing.quoteServices.filter((item) => item.category === "other") : [];
+  const lawnFenceStaining = isLawn
+    ? lawnPricing.quoteServices.find((item) => item.name === "Fence staining / painting")
+    : undefined;
+  const lawnOther = isLawn
+    ? lawnPricing.quoteServices.filter(
+        (item) => item.category === "other" && item.name !== "Fence staining / painting",
+      )
+    : [];
 
   return (
     <div className="pb-24 md:pb-0">
@@ -509,6 +524,27 @@ function ServiceDetail({
                       })}
                     </div>
                   </div>
+
+                  {lawnFenceStaining ? (
+                    <div className="mt-12">
+                      <h3 className="text-lg font-semibold text-brand-navy">{lawnFenceStaining.name}</h3>
+                      <p className="mt-2 max-w-xl text-sm text-brand-navy/70">{lawnFenceStaining.description}</p>
+                      <div className="mt-5">
+                        <BeforeAfter
+                          before={fenceStainComparison.before}
+                          after={fenceStainComparison.after}
+                          compact
+                          hideCaption
+                        />
+                      </div>
+                      <Link
+                        to="/contact"
+                        className="mt-6 inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-full bg-brand-green px-6 text-sm font-semibold text-white transition-colors duration-200 hover:bg-brand-green-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2"
+                      >
+                        Request a quote <ArrowRight className="size-4" aria-hidden />
+                      </Link>
+                    </div>
+                  ) : null}
 
                   <div className="mt-12">
                     <h3 className="text-lg font-semibold text-brand-navy">Yard extras</h3>
