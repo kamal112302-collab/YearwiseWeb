@@ -30,8 +30,9 @@ export var defaultServices = [{
   heroImage: servicePhoto("lawn-care", "hero").id,
   cardImage: servicePhoto("lawn-care", "card").id,
   sortOrder: 0,
-  seoTitle: "Lawn Care Thunder Bay | Yearwise Services",
-  seoDescription: "Lawn care in Thunder Bay: weekly or bi-weekly mowing from $140/mo, one-time cuts from $50+, and turf programs from $180. Same year-round crew."
+  seoTitle: "Lawn Care Thunder Bay — From $140/mo | Yearwise",
+  seoDescription:
+    "Yearwise lawn care in Thunder Bay: bi-weekly from $140/mo, weekly $199/mo (2,500 sq. ft.), one-time cuts from $50+. Insured local crew. Free quote.",
 }, {
   id: "seed-snow",
   slug: "snow-removal",

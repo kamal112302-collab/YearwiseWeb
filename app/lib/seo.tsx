@@ -1,4 +1,4 @@
-import { googleRating } from "~/lib/content.data";
+import { googleRating, googleReviewsUrl } from "~/lib/content.data";
 
 const PRODUCTION_APP_URL = "https://www.yearwiseservices.com";
 
@@ -133,8 +133,20 @@ export function localBusinessJsonLd(settings) {
       latitude: 48.3809,
       longitude: -89.2477
     },
-    areaServed: ["Thunder Bay", "Northwood", "Current River", "Westfort", "Intercity", "McIntyre", "Neebing", "Kakabeka Falls", "Murillo", "Shuniah"],
+    areaServed: [
+      { "@type": "City", name: "Thunder Bay" },
+      "Northwood",
+      "Current River",
+      "Westfort",
+      "Intercity",
+      "McIntyre",
+      "Neebing",
+      "Kakabeka Falls",
+      "Murillo",
+      "Shuniah",
+    ],
     priceRange: "$$",
+    sameAs: [googleReviewsUrl],
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
@@ -159,7 +171,15 @@ export function localBusinessJsonLd(settings) {
       "@type": "OfferCatalog",
       name: "Property services",
       itemListElement: [
-        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Lawn Care", url: `${appUrl}/services/lawn-care` } },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Lawn Care Thunder Bay",
+            url: `${appUrl}/services/lawn-care`,
+            areaServed: { "@type": "City", name: "Thunder Bay" },
+          },
+        },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Snow Removal", url: `${appUrl}/services/snow-removal` } },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Junk Removal", url: `${appUrl}/services/junk-removal` } }
       ]
@@ -167,26 +187,64 @@ export function localBusinessJsonLd(settings) {
   };
 }
 export function serviceJsonLd(service) {
+  const isLawn = service.slug === "lawn-care";
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: service.name,
+    name: isLawn ? "Lawn Care in Thunder Bay" : service.name,
     description: service.description,
     url: getCanonicalUrl(`/services/${service.slug}`),
     provider: {
       "@type": "HomeAndConstructionBusiness",
-      name: "Yearwise Services"
+      name: "Yearwise Services",
+      url: getAppUrl(),
+      areaServed: { "@type": "City", name: "Thunder Bay" },
     },
     areaServed: {
       "@type": "City",
-      name: "Thunder Bay"
+      name: "Thunder Bay",
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: "Ontario",
+      },
     },
     offers: {
       "@type": "Offer",
       price: service.price,
       priceCurrency: "CAD",
-      description: `Starting at ${service.price} CAD ${service.priceUnit ?? "per visit"}`
-    }
+      description: `Starting at ${service.price} CAD ${service.priceUnit ?? "per visit"}`,
+      availability: "https://schema.org/InStock",
+    },
+  };
+}
+
+/** Offer catalog for the /services hub (AEO/local retrieval). */
+export function servicesCatalogJsonLd() {
+  const appUrl = getAppUrl();
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Yearwise Services in Thunder Bay",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Lawn Care Thunder Bay",
+        url: `${appUrl}/services/lawn-care`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Snow Removal Thunder Bay",
+        url: `${appUrl}/services/snow-removal`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Junk Removal Thunder Bay",
+        url: `${appUrl}/services/junk-removal`,
+      },
+    ],
   };
 }
 export function faqPageJsonLd(faqs) {

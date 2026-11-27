@@ -34,13 +34,24 @@ async function loader({ params }: { params: { slug: string } }) {
   return { service, settings, snowPricing, lawnPricing, related };
 }
 
+const lawnSeo = {
+  title: "Lawn Care Thunder Bay — From $140/mo | Yearwise",
+  description:
+    "Yearwise lawn care in Thunder Bay: bi-weekly from $140/mo, weekly $199/mo (2,500 sq. ft.), one-time cuts from $50+. Insured local crew. Free quote.",
+} as const;
+
 function meta({ loaderData }: { loaderData?: { service: ServiceRecord } }) {
   if (!loaderData?.service) return [{ title: "Service — Yearwise Services" }];
   const service = loaderData.service;
   const imageId = service.heroImage;
+  const isLawn = service.slug === "lawn-care";
   return buildMeta({
-    title: service.seoTitle ?? `${service.name} in Thunder Bay — Yearwise Services`,
-    description: service.seoDescription ?? service.shortDescription ?? service.description.slice(0, 160),
+    title: isLawn
+      ? lawnSeo.title
+      : (service.seoTitle ?? `${service.name} in Thunder Bay — Yearwise Services`),
+    description: isLawn
+      ? lawnSeo.description
+      : (service.seoDescription ?? service.shortDescription ?? service.description.slice(0, 160)),
     path: `/services/${service.slug}`,
     image: imageId ? mediaUrl(imageId, 1200) : undefined,
     imageAlt: `${service.name} in Thunder Bay`,
@@ -681,6 +692,53 @@ function ServiceDetail({
               </ul>
             </div>
           </section>
+
+          {isLawn ? (
+            <section aria-labelledby="lawn-guides-heading" className="border-t border-brand-navy/10 bg-white">
+              <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+                <h2 id="lawn-guides-heading" className="display text-3xl sm:text-4xl">
+                  Thunder Bay lawn care guides
+                </h2>
+                <p className="mt-3 max-w-2xl text-base text-brand-navy/75">
+                  Pricing, season timing, and how Yearwise lawn care works locally.
+                </p>
+                <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+                  <li>
+                    <Link
+                      to="/blog/how-much-lawn-care-costs-thunder-bay"
+                      className="group flex h-full flex-col rounded-2xl border border-brand-navy/15 bg-brand-surface p-5 transition-colors hover:border-brand-green"
+                    >
+                      <h3 className="font-semibold text-brand-navy group-hover:text-brand-green-deep">
+                        How much lawn care costs in Thunder Bay
+                      </h3>
+                      <p className="mt-2 flex-1 text-sm leading-relaxed text-brand-navy/70">
+                        Bi-weekly from $140/mo, weekly $199/mo, turf programs from $180.
+                      </p>
+                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-navy">
+                        Read guide <ArrowRight className="size-4" aria-hidden />
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/blog/when-thunder-bay-lawn-season-starts"
+                      className="group flex h-full flex-col rounded-2xl border border-brand-navy/15 bg-brand-surface p-5 transition-colors hover:border-brand-green"
+                    >
+                      <h3 className="font-semibold text-brand-navy group-hover:text-brand-green-deep">
+                        When lawn season starts in Thunder Bay
+                      </h3>
+                      <p className="mt-2 flex-1 text-sm leading-relaxed text-brand-navy/70">
+                        From first thaw through fall cleanup — how booking works.
+                      </p>
+                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-navy">
+                        Read guide <ArrowRight className="size-4" aria-hidden />
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          ) : null}
 
           <section aria-labelledby="faq-heading" className="bg-brand-surface">
             <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8 lg:py-20">

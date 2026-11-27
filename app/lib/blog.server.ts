@@ -9,10 +9,11 @@ const junkPriceCover = mediaUrl(photos.junkYard.id, 1600);
 
 const guideBySlug = {
   "when-thunder-bay-lawn-season-starts": { season: "Lawn", serviceSlug: "lawn-care" },
+  "how-much-lawn-care-costs-thunder-bay": { season: "Lawn", serviceSlug: "lawn-care" },
   "how-automatic-snow-removal-works-thunder-bay": { season: "Snow", serviceSlug: "snow-removal" },
   "when-to-book-snow-removal-thunder-bay": { season: "Snow", serviceSlug: "snow-removal" },
   "what-we-can-haul-junk-removal-thunder-bay": { season: "Junk", serviceSlug: "junk-removal" },
-  "how-junk-removal-is-priced-thunder-bay": { season: "Junk", serviceSlug: "junk-removal" }
+  "how-junk-removal-is-priced-thunder-bay": { season: "Junk", serviceSlug: "junk-removal" },
 } as const;
 
 export function guideMeta(slug: string) {
@@ -30,6 +31,19 @@ export function serviceNameFor(slug: string) {
 }
 
 export var fallbackPosts = [{
+  id: "post-lawn-cost",
+  slug: "how-much-lawn-care-costs-thunder-bay",
+  title: "How much lawn care costs in Thunder Bay",
+  excerpt:
+    "Yearwise lawn care in Thunder Bay starts at $140/month bi-weekly or $199/month weekly — here’s what that includes.",
+  coverImage: lawnCover,
+  publishedAt: new Date("2026-04-02"),
+  author: "Yearwise Services",
+  bodyRichText: `<p>Yearwise Services provides lawn care in Thunder Bay with clear monthly pricing. Bi-weekly mowing starts at <strong>$140/month</strong> and weekly mowing at <strong>$199/month</strong>, based on a 2,500 sq. ft. lawn. One-time cuts start at $50+. Larger properties are quoted to fit.</p><h2>What a mowing visit includes</h2><p>Each visit covers mowing, trimming, blower cleanup, and mulched clippings. You stay on a weekly or bi-weekly route — no juggling a different contractor every week.</p><h2>Turf care programs</h2><p>If you want more than mowing, turf programs start at $180 (aeration plus spring and fall fertilization). Mid and full-season programs are $300 and $600 and can add overseeding, summer fertilizer, dethatching, and a second aeration.</p><h2>Seasonal cleanups and extras</h2><p>Spring and fall cleanups, hedge trimming, gutter cleanup, fence staining, and other yard extras are quoted per property. Call <a href="tel:8073582540">(807) 358-2540</a> or use the <a href="/contact">quote form</a>.</p><p>Most new Thunder Bay customers get a first lawn visit within 3–5 days. There is no long-term contract. Year-round customers who also book snow and junk save 10% and get priority scheduling.</p><p>See <a href="/services/lawn-care">lawn care in Thunder Bay</a> for full plans and booking.</p>`,
+  seoTitle: "How Much Lawn Care Costs in Thunder Bay | Yearwise",
+  seoDescription:
+    "Thunder Bay lawn care pricing from Yearwise: $140/mo bi-weekly, $199/mo weekly (2,500 sq. ft.), one-time from $50+. Turf programs from $180.",
+}, {
   id: "post-snow-book",
   slug: "when-to-book-snow-removal-thunder-bay",
   title: "When to book snow removal in Thunder Bay",
