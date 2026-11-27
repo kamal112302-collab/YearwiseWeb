@@ -40,18 +40,25 @@ const lawnSeo = {
     "Yearwise lawn care in Thunder Bay: bi-weekly from $140/mo, weekly $199/mo (2,500 sq. ft.), one-time cuts from $50+. Insured local crew. Free quote.",
 } as const;
 
+const snowSeo = {
+  title: "Snow Removal Thunder Bay — From $549/season | Yearwise",
+  description:
+    "Yearwise snow removal in Thunder Bay: automatic driveway clearing after 5 cm+ snow. Season packages from $549 + tax. Free quote.",
+} as const;
+
 function meta({ loaderData }: { loaderData?: { service: ServiceRecord } }) {
   if (!loaderData?.service) return [{ title: "Service — Yearwise Services" }];
   const service = loaderData.service;
   const imageId = service.heroImage;
-  const isLawn = service.slug === "lawn-care";
+  const forcedSeo =
+    service.slug === "lawn-care" ? lawnSeo : service.slug === "snow-removal" ? snowSeo : null;
   return buildMeta({
-    title: isLawn
-      ? lawnSeo.title
-      : (service.seoTitle ?? `${service.name} in Thunder Bay — Yearwise Services`),
-    description: isLawn
-      ? lawnSeo.description
-      : (service.seoDescription ?? service.shortDescription ?? service.description.slice(0, 160)),
+    title: forcedSeo?.title ?? service.seoTitle ?? `${service.name} in Thunder Bay — Yearwise Services`,
+    description:
+      forcedSeo?.description ??
+      service.seoDescription ??
+      service.shortDescription ??
+      service.description.slice(0, 160),
     path: `/services/${service.slug}`,
     image: imageId ? mediaUrl(imageId, 1200) : undefined,
     imageAlt: `${service.name} in Thunder Bay`,

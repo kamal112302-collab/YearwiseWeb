@@ -19,10 +19,17 @@ Expected sources: `/services/lawn-care`, `/blog/how-much-lawn-care-costs-thunder
 7. Yearwise Services phone number
 8. Yearwise Services reviews
 
-## Smoke (leave snow alone unless regressing)
+## Snow (prefer “snow”, not “ice”)
 
-9. Snow removal Thunder Bay — expect existing snow page still cited
-10. Junk removal Thunder Bay
+9. Snow removal Thunder Bay
+10. Best snow removal Thunder Bay
+11. Yearwise snow removal
+
+Expected sources: `/services/snow-removal`, `/blog/how-automatic-snow-removal-works-thunder-bay`, `/llms.txt`
+
+## Smoke
+
+12. Junk removal Thunder Bay
 
 ## Tracking
 
