@@ -1,5 +1,5 @@
 import { getLawnPricing, getServices, getSiteSettings, getSnowPricing } from "../lib/content.server";
-import { buildMeta } from "../lib/seo";
+import { buildMeta, JsonLd, servicesCatalogJsonLd } from "../lib/seo";
 import { formatCurrency } from "../lib/utils";
 import {
   fenceStainComparison,
@@ -34,11 +34,12 @@ async function loader() {
 
 function meta() {
   return buildMeta({
-    title: "Lawn Care, Snow Removal & Junk Hauling — Yearwise Services",
+    title: "Lawn Care, Snow & Junk Removal in Thunder Bay | Yearwise",
     description:
-      "Three property services, one Thunder Bay crew. Lawn plans from $140/mo, snow season packages from $549 + tax, junk hauling from $99. Cleanups, turf programs, and yard extras available.",
+      "Thunder Bay lawn care from $140/mo, snow season packages from $549 + tax, and junk hauling from $99. One insured Yearwise crew — cleanups, turf programs, and yard extras.",
     path: "/services",
     image: mediaUrl(servicePhoto("lawn-care").id, 1200),
+    imageAlt: "Yearwise lawn care in Thunder Bay",
   });
 }
 
@@ -64,6 +65,7 @@ function ServicesIndex({
 
   return (
     <div className="bg-brand-surface">
+      <JsonLd data={servicesCatalogJsonLd()} />
       <section aria-labelledby="services-heading" className="relative overflow-hidden">
         <div
           aria-hidden

@@ -17,8 +17,8 @@ export type ServicePageCopy = {
 export const servicePageCopy: Record<string, ServicePageCopy> = {
   "lawn-care": {
     h1: "Lawn care in Thunder Bay",
-    lead: "Weekly or bi-weekly mowing, turf care programs, and seasonal cleanups. One insured crew — plans from $140/month, one-time cuts from $50+.",
-    who: "Homeowners who want a clear mowing plan and turf program without juggling different contractors.",
+    lead: "Yearwise provides lawn care in Thunder Bay — weekly or bi-weekly mowing, turf programs, and seasonal cleanups with one insured crew. Plans from $140/month; one-time cuts from $50+.",
+    who: "Homeowners across Thunder Bay who want a clear mowing plan and turf program without juggling different contractors.",
     included: [
       "Lawn mowing, trimming, blower cleanup, and mulched clippings",
       "Weekly or bi-weekly monthly plans (based on 2,500 sq. ft.)",
@@ -29,26 +29,53 @@ export const servicePageCopy: Record<string, ServicePageCopy> = {
       "Work that was not named in the quote",
       "A visit you did not book",
     ],
-    pricing: "Weekly mowing is $199/month and bi-weekly is $140/month, based on 2,500 sq. ft. One-time cuts start at $50+. Turf care programs are $180, $300, or $600. Larger lawns and extras are quoted separately.",
-    booking: "Most new customers get a first visit within 3–5 days. Year-round customers save {discount} and get priority scheduling. You can cancel anytime.",
+    pricing:
+      "How much does lawn care cost in Thunder Bay? At Yearwise, weekly mowing is $199/month and bi-weekly is $140/month, based on 2,500 sq. ft. One-time cuts start at $50+. Turf care programs are $180, $300, or $600. Larger lawns and extras are quoted separately.",
+    booking:
+      "Most new Thunder Bay customers get a first lawn visit within 3–5 days. Year-round customers save {discount} and get priority scheduling. You can cancel anytime.",
     steps: [
-      { title: "You call, or you send the form", body: "We size the lawn and pick a weekly, bi-weekly, or one-time plan. The quote names the property before anything is billed." },
-      { title: "Choose mowing and turf", body: "Monthly mowing starts at $140 bi-weekly or $199 weekly (2,500 sq. ft.). Add a turf program from $180 if you want aeration and fertilizer handled too." },
-      { title: "We mow, trim, and clean up", body: "Each visit covers mowing, trimming, blower cleanup, and mulched clippings. Turf visits follow the program you booked." },
-      { title: "We come back on your cadence", body: "Weekly or bi-weekly stays on the route. Year-round customers save {discount} and get first pick of the schedule. Cancel anytime." },
+      {
+        title: "You call, or you send the form",
+        body: "We size the lawn and pick a weekly, bi-weekly, or one-time plan. The quote names the property before anything is billed.",
+      },
+      {
+        title: "Choose mowing and turf",
+        body: "Monthly mowing starts at $140 bi-weekly or $199 weekly (2,500 sq. ft.). Add a turf program from $180 if you want aeration and fertilizer handled too.",
+      },
+      {
+        title: "We mow, trim, and clean up",
+        body: "Each visit covers mowing, trimming, blower cleanup, and mulched clippings. Turf visits follow the program you booked.",
+      },
+      {
+        title: "We come back on your cadence",
+        body: "Weekly or bi-weekly stays on the route. Year-round customers save {discount} and get first pick of the schedule. Cancel anytime.",
+      },
     ],
     faqs: [
       {
-        question: "How is lawn mowing priced?",
-        answer: "Weekly mowing is $199/month and bi-weekly is $140/month, based on 2,500 sq. ft. One-time cuts start at $50+. Larger lawns are quoted to fit.",
+        question: "How much does lawn care cost in Thunder Bay?",
+        answer:
+          "Yearwise lawn care in Thunder Bay starts at $140/month for bi-weekly mowing and $199/month for weekly mowing, based on 2,500 sq. ft. One-time cuts start at $50+. Turf programs run $180, $300, or $600. Larger lawns are quoted to fit.",
+      },
+      {
+        question: "Who does lawn care in Thunder Bay?",
+        answer:
+          "Yearwise Services is a local Thunder Bay crew for lawn care, snow removal, and junk hauling. We mow, trim, and clean up on a weekly or bi-weekly plan, and we offer turf programs and seasonal cleanups with the same insured team.",
+      },
+      {
+        question: "What areas of Thunder Bay do you mow?",
+        answer:
+          "We provide lawn care across Thunder Bay and nearby communities including Northwood, Current River, Westfort, Intercity, McIntyre, Neebing, Kakabeka Falls, Murillo, and Shuniah.",
       },
       {
         question: "What is included in a turf care program?",
-        answer: "Programs start at $180 with core aeration plus spring and fall fertilization. Higher programs add overseeding, summer fertilizer, dethatching, and a second aeration.",
+        answer:
+          "Programs start at $180 with core aeration plus spring and fall fertilization. Higher programs add overseeding, summer fertilizer, dethatching, and a second aeration.",
       },
       {
         question: "Do I have to sign a long-term contract?",
-        answer: "No. You can cancel anytime. Year-round customers get priority scheduling and save {discount}.",
+        answer:
+          "No. You can cancel anytime. Year-round customers get priority scheduling and save {discount}.",
       },
     ],
   },
