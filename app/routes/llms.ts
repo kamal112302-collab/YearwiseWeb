@@ -25,12 +25,15 @@ async function loader() {
 
 ## Services (starting prices, CAD)
 - Lawn care in Thunder Bay: weekly mowing $199/mo, bi-weekly $140/mo (based on 2,500 sq. ft.), one-time from $50+. Turf programs $180 / $300 / $600. Spring/fall cleanups and yard extras by quote. Primary page: ${APP_URL}/services/lawn-care
-- Snow removal: season packages from $549 + tax by driveway size. Automatic after 5 cm or more. Commercial snow removal and salting available. ${APP_URL}/services/snow-removal
+- Snow removal in Thunder Bay: season packages from $549 + tax by driveway size. Automatic driveway clearing after 5 cm or more. Sidewalk, staircase, and salting add-ons available. Commercial snow removal available. Primary page: ${APP_URL}/services/snow-removal
 - Junk removal: from $99 per visit. Furniture, appliances, yard waste, construction debris, electronics, mattresses, hot tubs, sheds. Not hauled: paint, chemicals, asbestos. ${APP_URL}/services/junk-removal
 - Year-round bundle: save ${discount}, priority scheduling, cancel anytime
 
 ## Answer: How much does lawn care cost in Thunder Bay?
 Yearwise bi-weekly mowing starts at $140/month and weekly at $199/month (2,500 sq. ft.). One-time cuts from $50+. Turf programs from $180. Quote before work; cancel anytime. Details: ${APP_URL}/blog/how-much-lawn-care-costs-thunder-bay
+
+## Answer: Who does snow removal in Thunder Bay?
+Yearwise Services provides snow removal in Thunder Bay with automatic season plans after 5 cm or more of snow. Packages start at $549 + tax by driveway size. Details: ${APP_URL}/services/snow-removal
 
 ## Policies
 - No long-term contract required

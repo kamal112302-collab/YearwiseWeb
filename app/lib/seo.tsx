@@ -180,18 +180,31 @@ export function localBusinessJsonLd(settings) {
             areaServed: { "@type": "City", name: "Thunder Bay" },
           },
         },
-        { "@type": "Offer", itemOffered: { "@type": "Service", name: "Snow Removal", url: `${appUrl}/services/snow-removal` } },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Snow Removal Thunder Bay",
+            url: `${appUrl}/services/snow-removal`,
+            areaServed: { "@type": "City", name: "Thunder Bay" },
+          },
+        },
         { "@type": "Offer", itemOffered: { "@type": "Service", name: "Junk Removal", url: `${appUrl}/services/junk-removal` } }
       ]
     }
   };
 }
 export function serviceJsonLd(service) {
-  const isLawn = service.slug === "lawn-care";
+  const serviceName =
+    service.slug === "lawn-care"
+      ? "Lawn Care in Thunder Bay"
+      : service.slug === "snow-removal"
+        ? "Snow Removal in Thunder Bay"
+        : service.name;
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: isLawn ? "Lawn Care in Thunder Bay" : service.name,
+    name: serviceName,
     description: service.description,
     url: getCanonicalUrl(`/services/${service.slug}`),
     provider: {

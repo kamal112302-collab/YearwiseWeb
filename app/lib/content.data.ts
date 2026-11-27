@@ -43,8 +43,9 @@ export var defaultServices = [{
   heroImage: servicePhoto("snow-removal", "hero").id,
   cardImage: servicePhoto("snow-removal", "card").id,
   sortOrder: 1,
-  seoTitle: "Snow Removal Thunder Bay | Yearwise Services",
-  seoDescription: "Season snow removal in Thunder Bay after 5 cm+ snowfall. Driveway clearing by driveway size from $549 + tax."
+  seoTitle: "Snow Removal Thunder Bay — From $549/season | Yearwise",
+  seoDescription:
+    "Yearwise snow removal in Thunder Bay: automatic driveway clearing after 5 cm+ snow. Season packages from $549 + tax. Free quote.",
 }, {
   id: "seed-junk",
   slug: "junk-removal",
